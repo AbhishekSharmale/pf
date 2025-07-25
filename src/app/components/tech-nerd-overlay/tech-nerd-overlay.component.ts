@@ -31,7 +31,14 @@ import { Subscription } from 'rxjs';
         </div>
       </div>
 
-      <!-- Sleek API Call Visualization -->
+      <!-- API Server Visualization -->
+      <div class="api-server" [style.left.%]="85" [style.top.%]="45">
+        <div class="server-icon">🖥️</div>
+        <div class="server-label">API SERVER</div>
+        <div class="server-status">ONLINE</div>
+      </div>
+
+      <!-- Enhanced API Call Flow -->
       <div class="api-calls-container">
         <div 
           *ngFor="let call of apiCalls" 
@@ -41,9 +48,25 @@ import { Subscription } from 'rxjs';
           [style.width.px]="getLineWidth(call)"
           [style.transform]="getLineTransform(call)"
           [class]="'status-' + call.status">
+          
+          <!-- Request Flow -->
+          <div class="request-flow">
+            <div class="flow-dot request-dot"></div>
+          </div>
+          
+          <!-- API Call Info -->
           <div class="api-tooltip">
-            <span class="method-badge" [class]="'method-' + call.method.toLowerCase()">{{ call.method }}</span>
-            <span class="endpoint-path">{{ call.endpoint }}</span>
+            <div class="tooltip-header">
+              <span class="component-name">{{ call.component }}</span>
+              <span class="method-badge" [class]="'method-' + call.method.toLowerCase()">{{ call.method }}</span>
+            </div>
+            <div class="endpoint-path">{{ call.endpoint }}</div>
+            <div class="response-data" *ngIf="call.status === 'success'">{{ call.response }}</div>
+          </div>
+          
+          <!-- Response Flow (only for successful calls) -->
+          <div class="response-flow" *ngIf="call.status === 'success'">
+            <div class="flow-dot response-dot"></div>
           </div>
         </div>
       </div>
@@ -178,43 +201,142 @@ import { Subscription } from 'rxjs';
       }
     }
 
+    .api-server {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      
+      .server-icon {
+        font-size: 24px;
+        margin-bottom: 4px;
+        animation: server-pulse 3s ease-in-out infinite;
+      }
+      
+      .server-label {
+        font-size: 8px;
+        color: #40E0D0;
+        font-weight: 700;
+        margin-bottom: 2px;
+        text-align: center;
+      }
+      
+      .server-status {
+        background: #28a745;
+        color: white;
+        padding: 1px 6px;
+        border-radius: 8px;
+        font-size: 6px;
+        font-weight: 700;
+        animation: status-blink 2s ease-in-out infinite;
+      }
+    }
+
     .api-call-line {
       position: absolute;
-      height: 2px;
+      height: 3px;
       background: linear-gradient(90deg, rgba(64, 224, 208, 0.8), rgba(255, 107, 53, 0.8));
-      border-radius: 1px;
-      box-shadow: 0 0 8px rgba(64, 224, 208, 0.4);
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(64, 224, 208, 0.4);
+      overflow: visible;
 
-      &.status-pending { background: linear-gradient(90deg, #FFE66D, #FF6B35); }
-      &.status-error { background: linear-gradient(90deg, #DC3545, #FF6B35); }
+      &.status-pending { 
+        background: linear-gradient(90deg, #FFE66D, #FF6B35);
+        box-shadow: 0 0 10px rgba(255, 230, 109, 0.4);
+      }
+      
+      &.status-error { 
+        background: linear-gradient(90deg, #DC3545, #FF6B35);
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
+      }
+
+      .request-flow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        
+        .request-dot {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          background: #40E0D0;
+          border-radius: 50%;
+          box-shadow: 0 0 8px #40E0D0;
+          animation: request-travel 2s ease-in-out infinite;
+        }
+      }
+      
+      .response-flow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        
+        .response-dot {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: #28a745;
+          border-radius: 50%;
+          box-shadow: 0 0 6px #28a745;
+          animation: response-travel 2s ease-in-out infinite 0.5s;
+        }
+      }
 
       .api-tooltip {
         position: absolute;
-        top: -25px;
-        left: 0;
-        display: flex;
-        gap: 4px;
-        align-items: center;
+        top: -45px;
+        left: 10px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        border: 1px solid rgba(64, 224, 208, 0.4);
+        border-radius: 6px;
+        padding: 6px 8px;
         font-size: 8px;
         white-space: nowrap;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        
+        .tooltip-header {
+          display: flex;
+          gap: 6px;
+          align-items: center;
+          margin-bottom: 3px;
+          
+          .component-name {
+            color: #a0a0a0;
+            font-size: 7px;
+            font-weight: 600;
+          }
+          
+          .method-badge {
+            background: #40E0D0;
+            color: #1a1a1a;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 6px;
 
-        .method-badge {
-          background: #40E0D0;
-          color: #1a1a1a;
-          padding: 2px 6px;
-          border-radius: 4px;
-          font-weight: 700;
-          font-size: 7px;
-
-          &.method-get { background: #28a745; }
-          &.method-post { background: #007bff; }
-          &.method-put { background: #ffc107; color: #000; }
-          &.method-delete { background: #dc3545; }
+            &.method-get { background: #28a745; color: white; }
+            &.method-post { background: #007bff; color: white; }
+            &.method-put { background: #ffc107; color: #000; }
+            &.method-delete { background: #dc3545; color: white; }
+          }
         }
 
         .endpoint-path {
           color: #40E0D0;
-          font-weight: 500;
+          font-weight: 600;
+          margin-bottom: 2px;
+        }
+        
+        .response-data {
+          color: #28a745;
+          font-size: 7px;
+          font-style: italic;
+          opacity: 0.9;
         }
       }
     }
@@ -356,6 +478,26 @@ import { Subscription } from 'rxjs';
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.6; transform: scale(1.2); }
+    }
+    
+    @keyframes server-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    @keyframes status-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes request-travel {
+      0% { left: 0; opacity: 1; }
+      100% { left: calc(100% - 6px); opacity: 0.3; }
+    }
+    
+    @keyframes response-travel {
+      0% { right: 0; left: auto; opacity: 1; }
+      100% { right: calc(100% - 4px); opacity: 0.3; }
     }
 
     @media (max-width: 768px) {

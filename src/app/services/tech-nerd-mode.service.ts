@@ -16,6 +16,8 @@ export interface APICall {
   endpoint: string;
   status: 'pending' | 'success' | 'error';
   timestamp: number;
+  component?: string;
+  response?: string;
 }
 
 @Injectable({
@@ -80,32 +82,62 @@ export class TechNerdModeService {
   }
 
   private startAPICallSimulation(): void {
-    const endpoints = [
-      '/api/projects',
-      '/api/profile', 
-      '/api/skills',
-      '/api/experience'
+    const apiFlows = [
+      {
+        component: 'HeroComponent',
+        position: { x: 20, y: 25 },
+        endpoint: '/api/profile',
+        method: 'GET' as const,
+        response: '{ name, role, status }'
+      },
+      {
+        component: 'ProjectsComponent', 
+        position: { x: 15, y: 50 },
+        endpoint: '/api/projects',
+        method: 'GET' as const,
+        response: '{ projects[], tech[] }'
+      },
+      {
+        component: 'AboutComponent',
+        position: { x: 25, y: 75 },
+        endpoint: '/api/experience',
+        method: 'GET' as const,
+        response: '{ timeline[], skills[] }'
+      },
+      {
+        component: 'NavigationComponent',
+        position: { x: 50, y: 10 },
+        endpoint: '/api/analytics',
+        method: 'POST' as const,
+        response: '{ tracked: true }'
+      }
     ];
+
+    const serverPosition = { x: 85, y: 45 };
 
     setInterval(() => {
       if (this.techNerdModeSubject.value) {
+        const flow = apiFlows[Math.floor(Math.random() * apiFlows.length)];
+        
         const call: APICall = {
-          from: { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
-          to: { x: 90, y: 50 },
-          method: ['GET', 'POST'][Math.floor(Math.random() * 2)] as 'GET' | 'POST',
-          endpoint: endpoints[Math.floor(Math.random() * endpoints.length)],
+          from: flow.position,
+          to: serverPosition,
+          method: flow.method,
+          endpoint: flow.endpoint,
           status: 'pending',
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          component: flow.component,
+          response: flow.response
         };
 
         setTimeout(() => {
-          call.status = Math.random() > 0.1 ? 'success' : 'error';
+          call.status = Math.random() > 0.05 ? 'success' : 'error';
           this.updateAPICall(call);
-        }, 1000);
+        }, 800);
 
         this.addAPICall(call);
       }
-    }, 3000);
+    }, 2500);
   }
 
   private addAPICall(call: APICall): void {
