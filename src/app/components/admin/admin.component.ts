@@ -8,14 +8,25 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="admin-panel">
-      <div class="admin-header">
-        <h2>🔧 Content Management</h2>
-        <div class="auth-section" *ngIf="!isAuthenticated">
-          <input type="password" [(ngModel)]="password" placeholder="Admin Password" (keyup.enter)="authenticate()">
-          <button (click)="authenticate()">Login</button>
+    <div class="admin-container">
+      <!-- Login Screen -->
+      <div *ngIf="!isAuthenticated" class="login-screen">
+        <div class="login-card">
+          <h2>🔧 Admin Login</h2>
+          <div class="login-form">
+            <input type="password" [(ngModel)]="password" placeholder="Enter Admin Password" (keyup.enter)="authenticate()">
+            <button (click)="authenticate()">Login</button>
+            <p class="login-hint">Password: admin123</p>
+          </div>
         </div>
       </div>
+
+      <!-- Admin Panel -->
+      <div *ngIf="isAuthenticated" class="admin-panel">
+        <div class="admin-header">
+          <h2>🔧 Content Management</h2>
+          <button (click)="logout()" class="logout-btn">Logout</button>
+        </div>
 
       <div *ngIf="isAuthenticated" class="admin-content">
         <div class="tabs">
@@ -66,12 +77,86 @@ import { HttpClient } from '@angular/common/http';
     </div>
   `,
   styles: [`
+    .admin-container {
+      min-height: 100vh;
+      background: var(--bg-primary);
+      padding: 20px;
+    }
+
+    .login-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+
+    .login-card {
+      background: var(--bg-secondary);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      min-width: 400px;
+      border: 1px solid var(--border-color);
+    }
+
+    .login-card h2 {
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .login-form input {
+      padding: 15px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .login-form button {
+      background: var(--primary);
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-form button:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .login-hint {
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin: 0;
+      opacity: 0.7;
+    }
+
     .admin-panel {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 20px;
       background: var(--bg-secondary);
       border-radius: 12px;
+      padding: 20px;
     }
 
     .admin-header {
@@ -79,11 +164,18 @@ import { HttpClient } from '@angular/common/http';
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .auth-section {
-      display: flex;
-      gap: 10px;
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
     .tabs {
@@ -223,5 +315,10 @@ export class AdminComponent {
     this.http.delete(`/api/admin?type=blogs&action=delete&id=${id}`, {
       headers: { Authorization: 'Bearer admin123' }
     }).subscribe(() => this.loadData());
+  }
+
+  logout() {
+    this.isAuthenticated = false;
+    this.password = '';
   }
 }
