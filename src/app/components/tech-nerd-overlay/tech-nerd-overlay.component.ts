@@ -289,15 +289,26 @@ import { Subscription } from 'rxjs';
 
       .api-tooltip {
         position: absolute;
-        top: -45px;
-        left: 10px;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         border: 1px solid rgba(64, 224, 208, 0.4);
-        border-radius: 6px;
-        padding: 6px 8px;
-        font-size: 8px;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 9px;
         white-space: nowrap;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        
+        &::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 4px solid transparent;
+          border-top-color: #2d2d2d;
+        }
         
         .tooltip-header {
           display: flex;

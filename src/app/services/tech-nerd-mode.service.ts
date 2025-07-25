@@ -47,11 +47,11 @@ export class TechNerdModeService {
     if (!this.techNerdModeSubject.value) return;
 
     const componentPositions: { [key: string]: { x: number; y: number } } = {
-      'NavigationComponent': { x: 50, y: 10 },
-      'HeroComponent': { x: 20, y: 25 },
-      'ProjectsComponent': { x: 15, y: 50 },
-      'AboutComponent': { x: 25, y: 75 },
-      'BlogComponent': { x: 30, y: 85 }
+      'NavigationComponent': { x: 10, y: 5 },
+      'HeroComponent': { x: 10, y: 20 },
+      'ProjectsComponent': { x: 10, y: 40 },
+      'AboutComponent': { x: 10, y: 60 },
+      'BlogComponent': { x: 10, y: 80 }
     };
 
     const responseData: { [key: string]: string } = {
@@ -63,8 +63,8 @@ export class TechNerdModeService {
     };
 
     const call: APICall = {
-      from: componentPositions[component] || { x: 50, y: 50 },
-      to: { x: 85, y: 45 }, // Server position
+      from: componentPositions[component] || { x: 10, y: 50 },
+      to: { x: 80, y: 50 }, // Server position - centered right
       method,
       endpoint,
       status: 'pending',
