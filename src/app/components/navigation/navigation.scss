@@ -103,7 +103,8 @@
     }
   }
 
-  .theme-toggle {
+  .theme-toggle,
+  .tech-nerd-toggle {
     background: none;
     border: none;
     cursor: pointer;
@@ -120,7 +121,8 @@
       transform: scale(1.1);
     }
 
-    .theme-icon {
+    .theme-icon,
+    .nerd-icon {
       font-size: 1.2rem;
     }
 
@@ -143,9 +145,27 @@
         transform: translateX(10px);
       }
 
-      .theme-label {
+      .theme-label,
+      .toggle-label {
         margin-left: var(--space-sm);
       }
+    }
+  }
+
+  .tech-nerd-toggle {
+    position: relative;
+    
+    &.active {
+      background: rgba(0, 255, 65, 0.2);
+      color: #00ff41;
+      box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    }
+
+    .toggle-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
   }
 

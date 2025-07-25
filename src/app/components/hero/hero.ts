@@ -17,24 +17,51 @@ export class HeroComponent implements OnInit {
   @ViewChild('heroButtons', { static: true }) heroButtons!: ElementRef;
 
   typedText = '';
-  fullText = 'DevOps Engineer Who Automates Everything (Including Regret) 🤖';
+  currentTaglineIndex = 0;
   currentIndex = 0;
   isTyping = true;
 
-  funFacts = [
-    "My pipeline has 73 stages and I regret nothing ✨",
-    "I turn simple deployments into Kubernetes masterpieces 🚀",
-    "Currently automating chaos at Meganexus 💼",
-    "3+ years of making infrastructure unnecessarily complex 📊",
-    "Terraform modules for everything, including my grocery list 🛒"
+  taglines = [
+    "DevOps Engineer Who Automates Everything (Including Regret) 🤖",
+    "I Turn Simple Problems Into Distributed Systems 🔄",
+    "Professional Overthinker with a Kubernetes Addiction ⚙️",
+    "3+ Years of Making Coffee Into Infrastructure ☕",
+    "Senior Chaos Engineer at Your Service 🔥",
+    "I Container-ize My Feelings and Orchestrate My Anxiety 📦",
+    "Terraform Evangelist Who IaCs Everything 🏠",
+    "Pipeline Perfectionist with 73-Stage Builds 🚀",
+    "Cloud Native Developer Who Lives in the Terminal ☁️",
+    "DevOps Engineer: Because Someone Has to Automate the Chaos 🤖"
   ];
+
+  statusMessages = [
+    "Terraform modules for everything, including my grocery list 🛒",
+    "Currently debugging a pipeline that debugs other pipelines 🔄",
+    "My Kubernetes cluster has more uptime than my sleep schedule ⏰",
+    "Building Docker images while Docker builds character 🐳",
+    "Monitoring my coffee consumption with Prometheus ☕",
+    "Scaling my problems horizontally with microservices 📈",
+    "Writing YAML that makes other YAML cry 😢",
+    "My home network has better CI/CD than most companies 🏠"
+  ];
+
+  currentStatusIndex = 0;
+
+  get fullText() {
+    return this.taglines[this.currentTaglineIndex];
+  }
+
+  get currentStatus() {
+    return this.statusMessages[this.currentStatusIndex];
+  }
 
   currentFactIndex = 0;
 
   ngOnInit() {
     this.initAnimations();
     this.startTypewriter();
-    this.rotateFunFacts();
+    this.rotateTaglines();
+    this.rotateStatusMessages();
   }
 
   private initAnimations() {
@@ -107,9 +134,17 @@ export class HeroComponent implements OnInit {
     }, 100);
   }
 
-  private rotateFunFacts() {
+  private rotateTaglines() {
     setInterval(() => {
-      this.currentFactIndex = (this.currentFactIndex + 1) % this.funFacts.length;
+      this.currentTaglineIndex = (this.currentTaglineIndex + 1) % this.taglines.length;
+      this.currentIndex = 0;
+      this.typedText = '';
+    }, 5000);
+  }
+
+  private rotateStatusMessages() {
+    setInterval(() => {
+      this.currentStatusIndex = (this.currentStatusIndex + 1) % this.statusMessages.length;
     }, 4000);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -28,6 +28,8 @@ interface Project {
 })
 export class ProjectsComponent implements OnInit {
   selectedProject: Project | null = null;
+  private touchStartX = 0;
+  private touchStartY = 0;
   
   projects: Project[] = [
     {
@@ -177,6 +179,9 @@ export class ProjectsComponent implements OnInit {
   onCardHover(event: MouseEvent, enter: boolean) {
     const card = event.currentTarget as HTMLElement;
     
+    // Skip hover animations on mobile
+    if (window.innerWidth <= 768) return;
+    
     if (enter) {
       gsap.to(card, {
         y: -10,
@@ -192,5 +197,41 @@ export class ProjectsComponent implements OnInit {
         ease: 'power2.out'
       });
     }
+  }
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent) {
+    const touchEndX = event.changedTouches[0].clientX;
+    const touchEndY = event.changedTouches[0].clientY;
+    
+    const deltaX = touchEndX - this.touchStartX;
+    const deltaY = touchEndY - this.touchStartY;
+    
+    // Horizontal swipe detection
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        this.swipeRight();
+      } else {
+        this.swipeLeft();
+      }
+    }
+  }
+
+  private swipeLeft() {
+    // Navigate to next project or close modal
+    if (this.selectedProject) {
+      this.closeProjectModal();
+    }
+  }
+
+  private swipeRight() {
+    // Navigate to previous project
+    console.log('Swipe right detected');
   }
 }

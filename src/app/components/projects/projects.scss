@@ -37,6 +37,10 @@
       grid-template-columns: 1fr;
       gap: var(--space-lg);
     }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .project-card {
@@ -49,6 +53,19 @@
     position: relative;
     overflow: hidden;
     border: 1px solid var(--border-color);
+    min-height: 44px; // Touch-friendly
+
+    @media (max-width: 768px) {
+      padding: var(--space-md);
+      
+      &:hover {
+        transform: none; // Disable hover animations on mobile
+      }
+      
+      &:active {
+        transform: scale(0.98); // Touch feedback
+      }
+    }
 
     &::before {
       content: '';

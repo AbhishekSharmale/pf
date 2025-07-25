@@ -251,6 +251,132 @@ a {
   }
 }
 
+// Tech Nerd Mode Wireframe Styles
+body.tech-nerd-mode {
+  .section,
+  .container,
+  .hero-content,
+  .project-card,
+  .nav-container {
+    position: relative;
+    border: 1px dashed #00ff41;
+    background: rgba(0, 255, 65, 0.02);
+    
+    &::before {
+      content: attr(data-component) attr(class);
+      position: absolute;
+      top: -18px;
+      left: 0;
+      font-size: 10px;
+      color: #00ff41;
+      font-family: var(--font-mono);
+      background: var(--bg-primary);
+      padding: 2px 6px;
+      border-radius: 3px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+  }
+
+  // Component boundaries
+  app-navigation::before { content: 'NavigationComponent'; }
+  app-hero::before { content: 'HeroComponent'; }
+  app-projects::before { content: 'ProjectsComponent'; }
+  app-about::before { content: 'AboutComponent'; }
+  app-blog::before { content: 'BlogComponent'; }
+
+  // API call visualization overlay
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    background: 
+      radial-gradient(circle at 90% 50%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+      linear-gradient(45deg, transparent 49%, rgba(0, 255, 65, 0.1) 50%, transparent 51%);
+    animation: tech-scan 3s ease-in-out infinite;
+  }
+}
+
+@keyframes tech-scan {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.1; }
+}
+
+// API Call Lines
+.api-call-line {
+  position: fixed;
+  pointer-events: none;
+  z-index: 998;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #00ff41, transparent);
+    animation: api-flow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes api-flow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// Component Info Panel
+.component-info-panel {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 250px;
+  background: var(--bg-secondary);
+  border: 1px solid #00ff41;
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #00ff41;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+
+  .panel-title {
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    color: var(--primary);
+  }
+
+  .panel-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-xs);
+    
+    .label { opacity: 0.7; }
+    .value { color: #00ff41; }
+  }
+}
+
+// Mobile responsive for tech nerd mode
+@media (max-width: 768px) {
+  body.tech-nerd-mode {
+    .section::before,
+    .container::before {
+      font-size: 8px;
+      top: -15px;
+    }
+    
+    .component-info-panel {
+      width: 200px;
+      right: 10px;
+      font-size: 0.7rem;
+    }
+  }
+}
+
 // Scrollbar
 ::-webkit-scrollbar {
   width: 8px;

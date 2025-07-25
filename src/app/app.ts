@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ElementRef, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from './components/navigation/navigation';
+import { TechNerdOverlayComponent } from './components/tech-nerd-overlay/tech-nerd-overlay.component';
 import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavigationComponent],
+  imports: [RouterOutlet, NavigationComponent, TechNerdOverlayComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
