@@ -59,6 +59,12 @@ import { Subscription } from 'rxjs';
         </div>
       </div>
 
+      <!-- API Server -->
+      <div class="api-server" [style.left.%]="80" [style.top.%]="50">
+        <div class="server-icon">🖥️</div>
+        <div class="server-label">API SERVER</div>
+      </div>
+
       <!-- API Connection Lines -->
       <div class="api-connections">
         <div 
@@ -412,6 +418,31 @@ import { Subscription } from 'rxjs';
     @keyframes status-blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.7; }
+    }
+
+    .api-server {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateX(-50%) translateY(-50%);
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 2px solid rgba(64, 224, 208, 0.6);
+      border-radius: 12px;
+      padding: 8px;
+      z-index: 1000;
+      
+      .server-icon {
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      
+      .server-label {
+        font-size: 8px;
+        color: #40E0D0;
+        font-weight: 700;
+        text-align: center;
+      }
     }
 
     .api-connection-line {
