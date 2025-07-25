@@ -60,7 +60,7 @@ import { Subscription } from 'rxjs';
       </div>
 
       <!-- API Server -->
-      <div class="api-server" [style.left.%]="80" [style.top.%]="50">
+      <div class="api-server" [style.right.px]="20" [style.top.%]="50">
         <div class="server-icon">🖥️</div>
         <div class="server-label">API SERVER</div>
       </div>
@@ -72,7 +72,7 @@ import { Subscription } from 'rxjs';
           class="api-connection-line"
           [style.left.%]="call.from.x"
           [style.top.%]="call.from.y"
-          [style.width.%]="call.to.x - call.from.x"
+          [style.width]="'calc(100% - ' + call.from.x + '% - 100px)'"
           [class]="'status-' + call.status">
           <div class="api-call-text">
             <span class="method">{{ call.method }}</span>
@@ -421,27 +421,30 @@ import { Subscription } from 'rxjs';
     }
 
     .api-server {
-      position: absolute;
+      position: fixed;
       display: flex;
       flex-direction: column;
       align-items: center;
-      transform: translateX(-50%) translateY(-50%);
+      transform: translateY(-50%);
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       border: 2px solid rgba(64, 224, 208, 0.6);
       border-radius: 12px;
-      padding: 8px;
-      z-index: 1000;
+      padding: 12px;
+      z-index: 1001;
+      box-shadow: 0 0 20px rgba(64, 224, 208, 0.3);
+      animation: server-pulse 3s ease-in-out infinite;
       
       .server-icon {
-        font-size: 20px;
-        margin-bottom: 4px;
+        font-size: 24px;
+        margin-bottom: 6px;
       }
       
       .server-label {
-        font-size: 8px;
+        font-size: 9px;
         color: #40E0D0;
         font-weight: 700;
         text-align: center;
+        letter-spacing: 1px;
       }
     }
 
@@ -520,6 +523,17 @@ import { Subscription } from 'rxjs';
       0% { opacity: 1; }
       70% { opacity: 1; }
       100% { opacity: 0; }
+    }
+    
+    @keyframes server-pulse {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(64, 224, 208, 0.3);
+        border-color: rgba(64, 224, 208, 0.6);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(64, 224, 208, 0.6);
+        border-color: rgba(64, 224, 208, 0.9);
+      }
     }
 
     @media (max-width: 768px) {

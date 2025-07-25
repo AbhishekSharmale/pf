@@ -64,7 +64,7 @@ export class TechNerdModeService {
 
     const call: APICall = {
       from: componentPositions[component] || { x: 10, y: 50 },
-      to: { x: 80, y: 50 }, // Server position - centered right
+      to: { x: 95, y: 50 }, // Server position - far right
       method,
       endpoint,
       status: 'pending',
