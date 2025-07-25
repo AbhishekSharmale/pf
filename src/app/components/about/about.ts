@@ -14,37 +14,39 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class AboutComponent implements OnInit {
   skills = [
-    { name: 'JavaScript', level: 90, emoji: '🟨' },
-    { name: 'TypeScript', level: 85, emoji: '🔷' },
-    { name: 'Angular', level: 88, emoji: '🅰️' },
-    { name: 'React', level: 82, emoji: '⚛️' },
-    { name: 'Node.js', level: 80, emoji: '🟢' },
-    { name: 'Python', level: 75, emoji: '🐍' },
-    { name: 'Coffee Brewing', level: 99, emoji: '☕' },
-    { name: 'Bug Creation', level: 95, emoji: '🐛' }
+    { name: 'Azure DevOps', level: 95, emoji: '🔵' },
+    { name: 'Kubernetes', level: 90, emoji: '⚙️' },
+    { name: 'Terraform', level: 88, emoji: '🏠' },
+    { name: 'Docker', level: 92, emoji: '📦' },
+    { name: 'Azure Cloud', level: 85, emoji: '☁️' },
+    { name: 'CI/CD Pipelines', level: 93, emoji: '🚀' },
+    { name: 'Monitoring & Observability', level: 87, emoji: '📊' },
+    { name: 'Infrastructure as Code', level: 89, emoji: '📜' },
+    { name: 'Bash/PowerShell', level: 84, emoji: '💻' },
+    { name: 'Problem Overengineering', level: 99, emoji: '🤖' }
   ];
 
   timeline = [
     {
-      year: '2024',
-      title: 'Senior Comedy Developer',
-      company: 'Chaos Industries',
-      description: 'Leading a team of developers in creating solutions nobody asked for.',
-      emoji: '🎭'
+      year: 'Apr 2025 - Present',
+      title: 'DevOps Engineer',
+      company: 'Meganexus',
+      description: 'Optimizing Azure DevOps Services and automating everything that moves. Currently working on making deployments so smooth they\'re practically frictionless.',
+      emoji: '🚀'
     },
     {
-      year: '2023',
-      title: 'Full Stack Comedian',
-      company: 'Freelance Madness',
-      description: 'Building applications that make people laugh... or cry.',
-      emoji: '🤹‍♂️'
+      year: 'Mar 2023 - Apr 2025',
+      title: 'DevOps Engineer',
+      company: 'Digitate',
+      description: 'Managed Kubernetes clusters, built CI/CD pipelines, and turned infrastructure chaos into orchestrated symphony. Specialized in making complex things look simple.',
+      emoji: '⚙️'
     },
     {
-      year: '2022',
-      title: 'Junior Bug Engineer',
-      company: 'StartUp Chaos Co.',
-      description: 'Specialized in turning features into bugs and bugs into features.',
-      emoji: '🐛'
+      year: 'Mar 2022 - Mar 2023',
+      title: 'Cloud Engineer',
+      company: 'Digitate',
+      description: 'Azure and AWS infrastructure management, cloud migrations, and learning that "it works on my machine" doesn\'t apply to production.',
+      emoji: '☁️'
     }
   ];
 

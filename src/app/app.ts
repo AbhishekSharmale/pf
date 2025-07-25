@@ -11,7 +11,7 @@ import { gsap } from 'gsap';
   styleUrl: './app.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Comedy Portfolio - Solutions No One Asked For';
+  title = 'Abhishek - DevOps Engineer Who Automates Everything (Including Regret)';
   private cursor!: HTMLElement;
   private mouseMoveListener!: (e: MouseEvent) => void;
   private mouseEnterListener!: () => void;

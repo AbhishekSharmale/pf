@@ -17,16 +17,16 @@ export class HeroComponent implements OnInit {
   @ViewChild('heroButtons', { static: true }) heroButtons!: ElementRef;
 
   typedText = '';
-  fullText = 'Engineer of Solutions No One Asked For 🤖';
+  fullText = 'DevOps Engineer Who Automates Everything (Including Regret) 🤖';
   currentIndex = 0;
   isTyping = true;
 
   funFacts = [
-    "I debug code with rubber ducks 🦆",
-    "My code works on my machine™ 💻",
-    "I turn coffee into bugs... I mean features ☕",
-    "Stack Overflow is my co-pilot 🚁",
-    "I speak fluent JavaScript and broken English 🗣️"
+    "My pipeline has 73 stages and I regret nothing ✨",
+    "I turn simple deployments into Kubernetes masterpieces 🚀",
+    "Currently automating chaos at Meganexus 💼",
+    "3+ years of making infrastructure unnecessarily complex 📊",
+    "Terraform modules for everything, including my grocery list 🛒"
   ];
 
   currentFactIndex = 0;

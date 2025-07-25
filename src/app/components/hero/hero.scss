@@ -93,9 +93,41 @@
     .hero-title {
       font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 700;
-      margin-bottom: var(--space-md);
+      margin-bottom: var(--space-sm);
       line-height: 1.1;
       color: var(--text-primary);
+    }
+
+    .hero-role {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      flex-wrap: wrap;
+
+      @media (max-width: 480px) {
+        justify-content: center;
+      }
+
+      .role-badge {
+        background: var(--gradient-primary);
+        color: white;
+        padding: var(--space-xs) var(--space-md);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .experience-badge {
+        background: rgba(78, 205, 196, 0.2);
+        color: var(--secondary);
+        padding: var(--space-xs) var(--space-md);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid var(--secondary);
+      }
     }
 
     .hero-subtitle {
