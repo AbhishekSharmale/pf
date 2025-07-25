@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy, ElementRef, Renderer2 } from '@angular/co
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from './components/navigation/navigation';
 import { TechNerdOverlayComponent } from './components/tech-nerd-overlay/tech-nerd-overlay.component';
+import { TechNerdToggleComponent } from './components/tech-nerd-toggle/tech-nerd-toggle.component';
 import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavigationComponent, TechNerdOverlayComponent],
+  imports: [RouterOutlet, NavigationComponent, TechNerdOverlayComponent, TechNerdToggleComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

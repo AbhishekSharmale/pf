@@ -74,7 +74,6 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: none; // Custom cursor
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -251,9 +250,9 @@ a {
   }
 }
 
-// Tech Nerd Mode Breaking Animation
+// Tech Nerd Mode - Futuristic Transformation
 body.tech-nerd-mode {
-  // Breaking effect overlay
+  // Futuristic scan overlay
   &::before {
     content: '';
     position: fixed;
@@ -262,21 +261,30 @@ body.tech-nerd-mode {
     width: 100%;
     height: 100%;
     background: 
-      linear-gradient(45deg, transparent 49%, rgba(255, 0, 0, 0.1) 50%, transparent 51%),
-      linear-gradient(-45deg, transparent 49%, rgba(255, 0, 0, 0.1) 50%, transparent 51%),
-      radial-gradient(circle at 50% 50%, rgba(64, 224, 208, 0.05) 0%, transparent 70%);
-    background-size: 100px 100px, 100px 100px, 200px 200px;
+      linear-gradient(90deg, transparent 0%, rgba(64, 224, 208, 0.2) 50%, transparent 100%),
+      radial-gradient(circle at 50% 50%, rgba(64, 224, 208, 0.1) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent 0px, rgba(64, 224, 208, 0.05) 1px, transparent 3px);
+    background-size: 300% 100%, 400px 400px, 100% 6px;
     pointer-events: none;
     z-index: 998;
-    animation: breaking-scan 2s ease-in-out;
+    animation: futuristic-scan 2s ease-in-out;
   }
   
-  // Breaking glass effect on sections
+  // Futuristic UI transformation
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  transition: background 1.5s ease-in-out;
+  
+  // Transform sections with futuristic effect
   .section,
   .container,
   .project-card {
     position: relative;
-    animation: break-in 0.8s ease-out;
+    animation: tech-transform 1.2s ease-out;
+    border: 1px solid rgba(64, 224, 208, 0.4);
+    box-shadow: 
+      0 0 30px rgba(64, 224, 208, 0.15),
+      inset 0 0 30px rgba(64, 224, 208, 0.05);
+    backdrop-filter: blur(1px);
     
     &::after {
       content: '';
@@ -286,12 +294,13 @@ body.tech-nerd-mode {
       right: 0;
       bottom: 0;
       background: 
-        linear-gradient(45deg, transparent 48%, rgba(64, 224, 208, 0.1) 49%, rgba(255, 107, 53, 0.1) 50%, rgba(64, 224, 208, 0.1) 51%, transparent 52%),
-        linear-gradient(-45deg, transparent 48%, rgba(255, 107, 53, 0.1) 49%, rgba(64, 224, 208, 0.1) 50%, rgba(255, 107, 53, 0.1) 51%, transparent 52%);
-      background-size: 20px 20px;
+        linear-gradient(45deg, transparent 97%, rgba(64, 224, 208, 0.1) 100%),
+        linear-gradient(-45deg, transparent 97%, rgba(255, 107, 53, 0.1) 100%);
+      background-size: 40px 40px;
       pointer-events: none;
       z-index: 1;
       opacity: 0.3;
+      animation: grid-pulse 3s ease-in-out infinite;
     }
   }
 
@@ -336,38 +345,49 @@ body.tech-nerd-mode {
   .nav-container { &::after { content: 'CONTAINER'; } }
 }
 
-@keyframes breaking-scan {
+@keyframes futuristic-scan {
   0% { 
-    background-position: -100% -100%, 100% 100%, 50% 50%;
+    background-position: -300% 0%, 50% 50%, 0% 0%;
     opacity: 0;
   }
-  50% { 
-    background-position: 100% 100%, -100% -100%, 50% 50%;
+  30% { 
+    background-position: -100% 0%, 50% 50%, 0% 0%;
+    opacity: 0.8;
+  }
+  70% { 
+    background-position: 100% 0%, 50% 50%, 0% 0%;
     opacity: 1;
   }
   100% { 
-    background-position: 200% 200%, -200% -200%, 50% 50%;
-    opacity: 0.3;
+    background-position: 300% 0%, 50% 50%, 0% 0%;
+    opacity: 0.4;
   }
 }
 
-@keyframes break-in {
+@keyframes tech-transform {
   0% { 
-    transform: scale(1);
-    filter: blur(0px);
+    transform: scale(1) perspective(1000px) rotateX(0deg);
+    filter: brightness(1) contrast(1) hue-rotate(0deg);
+    border-color: transparent;
+    box-shadow: none;
   }
-  30% { 
-    transform: scale(1.02) rotate(0.5deg);
-    filter: blur(1px);
-  }
-  60% { 
-    transform: scale(0.98) rotate(-0.3deg);
-    filter: blur(0.5px);
+  40% { 
+    transform: scale(1.01) perspective(1000px) rotateX(1deg);
+    filter: brightness(1.2) contrast(1.3) hue-rotate(10deg);
+    border-color: rgba(64, 224, 208, 0.8);
+    box-shadow: 0 0 40px rgba(64, 224, 208, 0.3);
   }
   100% { 
-    transform: scale(1) rotate(0deg);
-    filter: blur(0px);
+    transform: scale(1) perspective(1000px) rotateX(0deg);
+    filter: brightness(1.1) contrast(1.2) hue-rotate(5deg);
+    border-color: rgba(64, 224, 208, 0.4);
+    box-shadow: 0 0 30px rgba(64, 224, 208, 0.15);
   }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 @keyframes data-pulse {
