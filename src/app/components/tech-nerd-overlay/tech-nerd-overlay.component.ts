@@ -9,69 +9,57 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule],
   template: `
     <div class="tech-nerd-overlay" *ngIf="isActive">
-      <!-- Modern Developer Console Panel -->
-      <div class="component-info-panel" *ngIf="selectedComponent">
-        <div class="panel-header">
-          <div class="panel-title">🔍 {{ selectedComponent.name }}</div>
-          <div class="panel-status">ACTIVE</div>
+      <!-- API Calls Dashboard -->
+      <div class="api-dashboard">
+        <div class="dashboard-header">
+          <div class="dashboard-title">🔍 API CALLS</div>
+          <div class="dashboard-status">MONITORING</div>
         </div>
-        <div class="panel-metrics">
-          <div class="metric-item">
-            <span class="metric-label">TYPE</span>
-            <span class="metric-value">{{ selectedComponent.type.split(' ')[1] }}</span>
-          </div>
-          <div class="metric-item">
-            <span class="metric-label">SIZE</span>
-            <span class="metric-value">{{ selectedComponent.bundleSize }}</span>
-          </div>
-          <div class="metric-item">
-            <span class="metric-label">RENDER</span>
-            <span class="metric-value">{{ selectedComponent.renderTime }}ms</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- API Server Visualization -->
-      <div class="api-server" [style.left.%]="85" [style.top.%]="45">
-        <div class="server-icon">🖥️</div>
-        <div class="server-label">API SERVER</div>
-        <div class="server-status">ONLINE</div>
-      </div>
-
-      <!-- Enhanced API Call Flow -->
-      <div class="api-calls-container">
-        <div 
-          *ngFor="let call of apiCalls" 
-          class="api-call-line"
-          [style.left.%]="call.from.x"
-          [style.top.%]="call.from.y"
-          [style.width.px]="getLineWidth(call)"
-          [style.transform]="getLineTransform(call)"
-          [class]="'status-' + call.status">
-          
-          <!-- Request Flow -->
-          <div class="request-flow">
-            <div class="flow-dot request-dot"></div>
-          </div>
-          
-          <!-- API Call Info -->
-          <div class="api-tooltip">
-            <div class="tooltip-header">
-              <span class="component-name">{{ call.component }}</span>
+        <div class="api-calls-list">
+          <div 
+            *ngFor="let call of apiCalls; trackBy: trackApiCall" 
+            class="api-call-item"
+            [class]="'status-' + call.status">
+            <div class="call-header">
               <span class="method-badge" [class]="'method-' + call.method.toLowerCase()">{{ call.method }}</span>
+              <span class="endpoint">{{ call.endpoint }}</span>
+              <span class="status-indicator" [class]="'status-' + call.status">
+                <span *ngIf="call.status === 'pending'">⏳</span>
+                <span *ngIf="call.status === 'success'">✓</span>
+                <span *ngIf="call.status === 'error'">✗</span>
+              </span>
             </div>
-            <div class="endpoint-path">{{ call.endpoint }}</div>
-            <div class="response-data" *ngIf="call.status === 'success'">{{ call.response }}</div>
-          </div>
-          
-          <!-- Response Flow (only for successful calls) -->
-          <div class="response-flow" *ngIf="call.status === 'success'">
-            <div class="flow-dot response-dot"></div>
+            <div class="call-details">
+              <span class="component-name">{{ call.component }}</span>
+              <span class="timestamp">{{ getTimeAgo(call.timestamp) }}</span>
+            </div>
+            <div class="response-preview" *ngIf="call.status === 'success'">
+              {{ call.response }}
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Modern Architecture Visualization -->
+      <!-- Performance Monitor -->
+      <div class="performance-monitor">
+        <div class="monitor-title">⚡ PERFORMANCE</div>
+        <div class="perf-metrics">
+          <div class="perf-item">
+            <div class="perf-label">FPS</div>
+            <div class="perf-value">60</div>
+          </div>
+          <div class="perf-item">
+            <div class="perf-label">MEMORY</div>
+            <div class="perf-value">{{ getMemoryUsage() }}MB</div>
+          </div>
+          <div class="perf-item">
+            <div class="perf-label">LOAD</div>
+            <div class="perf-value">{{ getLoadTime() }}ms</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Architecture -->
       <div class="architecture-panel">
         <div class="arch-header">
           <div class="arch-title">⚡ SYSTEM MAP</div>
@@ -103,25 +91,6 @@ import { Subscription } from 'rxjs';
           </div>
         </div>
       </div>
-
-      <!-- Performance Monitor -->
-      <div class="performance-monitor">
-        <div class="monitor-title">⚡ PERFORMANCE</div>
-        <div class="perf-metrics">
-          <div class="perf-item">
-            <div class="perf-label">FPS</div>
-            <div class="perf-value">60</div>
-          </div>
-          <div class="perf-item">
-            <div class="perf-label">MEMORY</div>
-            <div class="perf-value">{{ getMemoryUsage() }}MB</div>
-          </div>
-          <div class="perf-item">
-            <div class="perf-label">LOAD</div>
-            <div class="perf-value">{{ getLoadTime() }}ms</div>
-          </div>
-        </div>
-      </div>
     </div>
   `,
   styles: [`
@@ -136,218 +105,173 @@ import { Subscription } from 'rxjs';
       font-family: 'JetBrains Mono', monospace;
     }
 
-    .component-info-panel {
+    .api-dashboard {
       position: fixed;
-      top: 80px;
+      top: 20px;
       right: 20px;
-      width: 280px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      border: 1px solid rgba(64, 224, 208, 0.4);
-      border-radius: 12px;
-      padding: 0;
-      z-index: 1001;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
+      width: 350px;
+      max-height: 400px;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      border: 2px solid rgba(64, 224, 208, 0.6);
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      animation: dashboard-slide-in 0.8s ease-out;
 
-      .panel-header {
+      .dashboard-header {
         background: linear-gradient(90deg, #40E0D0, #FF6B35);
-        padding: 8px 16px;
+        padding: 12px 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        .panel-title {
-          font-size: 11px;
+        .dashboard-title {
+          font-size: 12px;
           font-weight: 700;
           color: white;
-          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
-        .panel-status {
+        .dashboard-status {
           background: rgba(255, 255, 255, 0.2);
           padding: 2px 8px;
           border-radius: 10px;
           font-size: 8px;
           color: white;
           font-weight: 600;
+          animation: status-blink 2s ease-in-out infinite;
         }
       }
 
-      .panel-metrics {
-        padding: 16px;
+      .api-calls-list {
+        max-height: 320px;
+        overflow-y: auto;
+        padding: 8px;
 
-        .metric-item {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 12px;
-          padding: 8px 0;
-          border-bottom: 1px solid rgba(64, 224, 208, 0.1);
+        .api-call-item {
+          background: rgba(64, 224, 208, 0.05);
+          border: 1px solid rgba(64, 224, 208, 0.2);
+          border-radius: 8px;
+          padding: 10px;
+          margin-bottom: 8px;
+          animation: call-item-slide 0.3s ease-out;
 
-          &:last-child { border-bottom: none; }
-
-          .metric-label {
-            font-size: 9px;
-            color: #a0a0a0;
-            font-weight: 600;
+          &.status-success {
+            border-color: rgba(40, 167, 69, 0.4);
+            background: rgba(40, 167, 69, 0.05);
           }
 
-          .metric-value {
-            font-size: 11px;
-            color: #40E0D0;
-            font-weight: 700;
+          &.status-error {
+            border-color: rgba(220, 53, 69, 0.4);
+            background: rgba(220, 53, 69, 0.05);
+          }
+
+          .call-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+
+            .method-badge {
+              background: #40E0D0;
+              color: #000;
+              padding: 2px 6px;
+              border-radius: 4px;
+              font-weight: 700;
+              font-size: 8px;
+
+              &.method-get { background: #28a745; color: white; }
+              &.method-post { background: #007bff; color: white; }
+              &.method-put { background: #ffc107; color: #000; }
+              &.method-delete { background: #dc3545; color: white; }
+            }
+
+            .endpoint {
+              flex: 1;
+              color: #40E0D0;
+              font-size: 10px;
+              font-weight: 600;
+            }
+
+            .status-indicator {
+              font-size: 12px;
+              
+              &.status-pending { color: #FFE66D; }
+              &.status-success { color: #28a745; }
+              &.status-error { color: #dc3545; }
+            }
+          }
+
+          .call-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: #a0a0a0;
+            margin-bottom: 4px;
+
+            .component-name {
+              font-weight: 600;
+            }
+
+            .timestamp {
+              opacity: 0.7;
+            }
+          }
+
+          .response-preview {
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 7px;
+            color: #28a745;
+            font-family: monospace;
+            border-left: 2px solid #28a745;
           }
         }
       }
     }
 
-    .api-server {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1000;
-      
-      .server-icon {
-        font-size: 24px;
-        margin-bottom: 4px;
-        animation: server-pulse 3s ease-in-out infinite;
-      }
-      
-      .server-label {
-        font-size: 8px;
-        color: #40E0D0;
+    .performance-monitor {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      width: 200px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 1px solid rgba(255, 107, 53, 0.4);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+      .monitor-title {
+        background: linear-gradient(90deg, #FF6B35, #FFE66D);
+        padding: 8px 16px;
+        font-size: 11px;
         font-weight: 700;
-        margin-bottom: 2px;
+        color: white;
         text-align: center;
       }
-      
-      .server-status {
-        background: #28a745;
-        color: white;
-        padding: 1px 6px;
-        border-radius: 8px;
-        font-size: 6px;
-        font-weight: 700;
-        animation: status-blink 2s ease-in-out infinite;
-      }
-    }
 
-    .api-call-line {
-      position: absolute;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(64, 224, 208, 0.8), rgba(255, 107, 53, 0.8));
-      border-radius: 2px;
-      box-shadow: 0 0 10px rgba(64, 224, 208, 0.4);
-      overflow: visible;
+      .perf-metrics {
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
 
-      &.status-pending { 
-        background: linear-gradient(90deg, #FFE66D, #FF6B35);
-        box-shadow: 0 0 10px rgba(255, 230, 109, 0.4);
-      }
-      
-      &.status-error { 
-        background: linear-gradient(90deg, #DC3545, #FF6B35);
-        box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
-      }
+        .perf-item {
+          text-align: center;
 
-      .request-flow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        
-        .request-dot {
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          background: #40E0D0;
-          border-radius: 50%;
-          box-shadow: 0 0 8px #40E0D0;
-          animation: request-travel 2s ease-in-out infinite;
-        }
-      }
-      
-      .response-flow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        
-        .response-dot {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: #28a745;
-          border-radius: 50%;
-          box-shadow: 0 0 6px #28a745;
-          animation: response-travel 2s ease-in-out infinite 0.5s;
-        }
-      }
-
-      .api-tooltip {
-        position: absolute;
-        top: -50px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        border: 1px solid rgba(64, 224, 208, 0.4);
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 9px;
-        white-space: nowrap;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-        
-        &::after {
-          content: '';
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-          border: 4px solid transparent;
-          border-top-color: #2d2d2d;
-        }
-        
-        .tooltip-header {
-          display: flex;
-          gap: 6px;
-          align-items: center;
-          margin-bottom: 3px;
-          
-          .component-name {
-            color: #a0a0a0;
+          .perf-label {
             font-size: 7px;
+            color: #a0a0a0;
             font-weight: 600;
+            margin-bottom: 4px;
           }
-          
-          .method-badge {
-            background: #40E0D0;
-            color: #1a1a1a;
-            padding: 1px 4px;
-            border-radius: 3px;
+
+          .perf-value {
+            font-size: 12px;
+            color: #FF6B35;
             font-weight: 700;
-            font-size: 6px;
-
-            &.method-get { background: #28a745; color: white; }
-            &.method-post { background: #007bff; color: white; }
-            &.method-put { background: #ffc107; color: #000; }
-            &.method-delete { background: #dc3545; color: white; }
           }
-        }
-
-        .endpoint-path {
-          color: #40E0D0;
-          font-weight: 600;
-          margin-bottom: 2px;
-        }
-        
-        .response-data {
-          color: #28a745;
-          font-size: 7px;
-          font-style: italic;
-          opacity: 0.9;
         }
       }
     }
@@ -442,47 +366,25 @@ import { Subscription } from 'rxjs';
       }
     }
 
-    .performance-monitor {
-      position: fixed;
-      top: 80px;
-      left: 20px;
-      width: 200px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      border: 1px solid rgba(255, 107, 53, 0.4);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-
-      .monitor-title {
-        background: linear-gradient(90deg, #FF6B35, #FFE66D);
-        padding: 8px 16px;
-        font-size: 11px;
-        font-weight: 700;
-        color: white;
-        text-align: center;
+    @keyframes dashboard-slide-in {
+      0% {
+        transform: translateX(100%);
+        opacity: 0;
       }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
 
-      .perf-metrics {
-        padding: 12px;
-        display: flex;
-        justify-content: space-between;
-
-        .perf-item {
-          text-align: center;
-
-          .perf-label {
-            font-size: 7px;
-            color: #a0a0a0;
-            font-weight: 600;
-            margin-bottom: 4px;
-          }
-
-          .perf-value {
-            font-size: 12px;
-            color: #FF6B35;
-            font-weight: 700;
-          }
-        }
+    @keyframes call-item-slide {
+      0% {
+        transform: translateX(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
       }
     }
 
@@ -491,40 +393,25 @@ import { Subscription } from 'rxjs';
       50% { opacity: 0.6; transform: scale(1.2); }
     }
     
-    @keyframes server-pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-    
     @keyframes status-blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.7; }
     }
-    
-    @keyframes request-travel {
-      0% { left: 0; opacity: 1; }
-      100% { left: calc(100% - 6px); opacity: 0.3; }
-    }
-    
-    @keyframes response-travel {
-      0% { right: 0; left: auto; opacity: 1; }
-      100% { right: calc(100% - 4px); opacity: 0.3; }
-    }
 
     @media (max-width: 768px) {
-      .component-info-panel,
+      .api-dashboard {
+        width: 300px;
+        right: 10px;
+      }
+
       .architecture-panel {
-        width: 250px;
-        font-size: 9px;
+        width: 280px;
+        bottom: 10px;
+        left: 10px;
       }
 
       .performance-monitor {
         width: 180px;
-      }
-
-      .architecture-panel {
-        bottom: 10px;
-        left: 10px;
       }
     }
   `]
@@ -533,7 +420,6 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
   isActive = false;
   components: ComponentInfo[] = [];
   apiCalls: APICall[] = [];
-  selectedComponent: ComponentInfo | null = null;
   
   private subscriptions: Subscription[] = [];
 
@@ -543,9 +429,6 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.techNerdService.techNerdMode$.subscribe(active => {
         this.isActive = active;
-        if (active && this.components.length > 0) {
-          this.selectedComponent = this.components[0];
-        }
       }),
       
       this.techNerdService.components$.subscribe(components => {
@@ -562,26 +445,22 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  getLineWidth(call: APICall): number {
-    const dx = call.to.x - call.from.x;
-    const dy = call.to.y - call.from.y;
-    return Math.sqrt(dx * dx + dy * dy) * 5; // Scale for viewport
+  trackApiCall(index: number, call: APICall): number {
+    return call.timestamp;
   }
 
-  getLineTransform(call: APICall): string {
-    const dx = call.to.x - call.from.x;
-    const dy = call.to.y - call.from.y;
-    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-    return `rotate(${angle}deg)`;
+  getTimeAgo(timestamp: number): string {
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes}m ago`;
   }
 
   getMemoryUsage(): number {
-    // Simulate memory usage
     return Math.floor(Math.random() * 50) + 20;
   }
 
   getLoadTime(): number {
-    // Simulate load time
     return Math.floor(Math.random() * 200) + 100;
   }
 }
