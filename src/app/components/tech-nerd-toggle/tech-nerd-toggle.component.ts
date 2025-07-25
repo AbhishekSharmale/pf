@@ -136,6 +136,7 @@ export class TechNerdToggleComponent {
   constructor(private techNerdService: TechNerdModeService) {
     this.techNerdService.techNerdMode$.subscribe(mode => {
       this.isTechNerdMode = mode;
+      document.body.classList.toggle('tech-nerd-mode', mode);
     });
   }
 

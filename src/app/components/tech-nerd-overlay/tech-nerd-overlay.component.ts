@@ -446,42 +446,52 @@ import { Subscription } from 'rxjs';
     }
 
     .api-connection-line {
-      position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(64, 224, 208, 0.8), rgba(255, 107, 53, 0.8));
+      position: fixed;
+      height: 3px;
+      background: linear-gradient(90deg, #40E0D0, #FF6B35);
       pointer-events: none;
-      z-index: 999;
+      z-index: 1000;
       opacity: 1;
       animation: line-fade 5s ease-in-out forwards;
+      box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
       
-      &.status-pending { background: linear-gradient(90deg, #FFE66D, #FF6B35); }
-      &.status-error { background: linear-gradient(90deg, #DC3545, #FF6B35); }
+      &.status-pending { 
+        background: linear-gradient(90deg, #FFE66D, #FF6B35);
+        box-shadow: 0 0 10px rgba(255, 230, 109, 0.5);
+      }
+      &.status-error { 
+        background: linear-gradient(90deg, #DC3545, #FF6B35);
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+      }
       
       &::after {
         content: '';
         position: absolute;
-        top: -1px;
+        top: -2px;
         left: 0;
-        width: 6px;
-        height: 4px;
+        width: 8px;
+        height: 7px;
         background: #40E0D0;
         border-radius: 50%;
-        box-shadow: 0 0 8px #40E0D0;
-        animation: data-travel 2s ease-in-out infinite;
+        box-shadow: 0 0 12px #40E0D0;
+        animation: data-travel 3s ease-in-out infinite;
       }
       
       .api-call-text {
         position: absolute;
-        top: -20px;
-        left: 10px;
+        top: -25px;
+        left: 20px;
         display: flex;
         gap: 8px;
-        font-size: 10px;
+        font-size: 11px;
         font-family: var(--font-mono);
         animation: text-fade 5s ease-in-out forwards;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 4px 8px;
+        border-radius: 4px;
         
         .method {
-          background: rgba(64, 224, 208, 0.8);
+          background: #40E0D0;
           color: #000;
           padding: 2px 6px;
           border-radius: 3px;
