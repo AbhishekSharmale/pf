@@ -1,0 +1,169 @@
+{
+  "devopsRoadmap": {
+    "title": "DevOps Engineer Journey",
+    "description": "My path from Cloud Engineer to Senior DevOps Engineer",
+    "sections": [
+      {
+        "id": "foundations",
+        "title": "Foundations",
+        "color": "bg-blue-500",
+        "items": [
+          {
+            "id": "linux",
+            "title": "Linux Administration",
+            "description": "Command line mastery, system administration",
+            "status": "completed",
+            "skills": ["Bash", "System Administration", "Networking"],
+            "duration": "6 months"
+          },
+          {
+            "id": "networking",
+            "title": "Networking Fundamentals",
+            "description": "TCP/IP, DNS, Load Balancing, Firewalls",
+            "status": "completed",
+            "skills": ["TCP/IP", "DNS", "Load Balancers"],
+            "duration": "3 months"
+          }
+        ]
+      },
+      {
+        "id": "cloud",
+        "title": "Cloud Platforms",
+        "color": "bg-cyan-500",
+        "items": [
+          {
+            "id": "azure",
+            "title": "Microsoft Azure",
+            "description": "Azure services, ARM templates, Azure DevOps",
+            "status": "completed",
+            "skills": ["Azure", "ARM Templates", "Azure DevOps"],
+            "duration": "1 year",
+            "projects": ["Azure Landing Zone", "Multi-tenant Architecture"]
+          },
+          {
+            "id": "aws",
+            "title": "Amazon Web Services",
+            "description": "EC2, S3, Lambda, CloudFormation",
+            "status": "in-progress",
+            "skills": ["AWS", "CloudFormation", "Lambda"],
+            "duration": "6 months"
+          }
+        ]
+      },
+      {
+        "id": "containers",
+        "title": "Containerization",
+        "color": "bg-purple-500",
+        "items": [
+          {
+            "id": "docker",
+            "title": "Docker Mastery",
+            "description": "Multi-stage builds, optimization, security",
+            "status": "completed",
+            "skills": ["Docker", "Multi-stage builds", "Container Security"],
+            "duration": "4 months"
+          },
+          {
+            "id": "kubernetes",
+            "title": "Kubernetes Orchestration",
+            "description": "6-node home cluster, production deployments",
+            "status": "completed",
+            "skills": ["Kubernetes", "Helm", "Service Mesh"],
+            "duration": "8 months",
+            "projects": ["Home Lab Cluster", "Production K8s"]
+          }
+        ]
+      },
+      {
+        "id": "cicd",
+        "title": "CI/CD Pipelines",
+        "color": "bg-green-500",
+        "items": [
+          {
+            "id": "azure-pipelines",
+            "title": "Azure DevOps Pipelines",
+            "description": "73-stage pipeline masterpiece",
+            "status": "completed",
+            "skills": ["Azure Pipelines", "YAML", "Security Scanning"],
+            "duration": "1 year",
+            "projects": ["73-Stage Pipeline", "Multi-environment Deployments"]
+          },
+          {
+            "id": "gitops",
+            "title": "GitOps Workflows",
+            "description": "ArgoCD, Flux, automated deployments",
+            "status": "completed",
+            "skills": ["ArgoCD", "GitOps", "Automated Deployments"],
+            "duration": "6 months"
+          }
+        ]
+      },
+      {
+        "id": "iac",
+        "title": "Infrastructure as Code",
+        "color": "bg-orange-500",
+        "items": [
+          {
+            "id": "terraform",
+            "title": "Terraform Modules",
+            "description": "47 variables and zero regrets",
+            "status": "completed",
+            "skills": ["Terraform", "Module Development", "State Management"],
+            "duration": "1 year",
+            "projects": ["Reusable Modules", "Multi-cloud Infrastructure"]
+          },
+          {
+            "id": "ansible",
+            "title": "Configuration Management",
+            "description": "Ansible playbooks, automation",
+            "status": "in-progress",
+            "skills": ["Ansible", "Configuration Management"],
+            "duration": "3 months"
+          }
+        ]
+      },
+      {
+        "id": "monitoring",
+        "title": "Monitoring & Observability",
+        "color": "bg-red-500",
+        "items": [
+          {
+            "id": "prometheus",
+            "title": "Prometheus & Grafana",
+            "description": "47 dashboards for everything",
+            "status": "completed",
+            "skills": ["Prometheus", "Grafana", "AlertManager"],
+            "duration": "6 months",
+            "projects": ["Monitoring Stack", "Custom Dashboards"]
+          },
+          {
+            "id": "elk",
+            "title": "ELK Stack",
+            "description": "Centralized logging and analysis",
+            "status": "in-progress",
+            "skills": ["Elasticsearch", "Logstash", "Kibana"],
+            "duration": "4 months"
+          }
+        ]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "k8s-cluster",
+      "title": "Kubernetes Home Cluster",
+      "description": "6-node production-grade cluster",
+      "tech": ["Kubernetes", "Helm", "Prometheus", "ArgoCD"],
+      "status": "completed",
+      "roadmapItems": ["kubernetes", "prometheus", "gitops"]
+    },
+    {
+      "id": "pipeline",
+      "title": "73-Stage CI/CD Pipeline",
+      "description": "Enterprise-grade deployment pipeline",
+      "tech": ["Azure DevOps", "Docker", "Terraform"],
+      "status": "completed",
+      "roadmapItems": ["azure-pipelines", "docker", "terraform"]
+    }
+  ]
+}
