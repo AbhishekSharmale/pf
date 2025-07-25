@@ -19,7 +19,6 @@ export class NavigationComponent implements OnInit {
   isMenuOpen = false;
   currentRoute = '';
   isDarkTheme = true;
-  isTechNerdMode = false;
   
   navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
@@ -37,11 +36,6 @@ export class NavigationComponent implements OnInit {
     this.initScrollProgress();
     this.trackRouteChanges();
     this.initTheme();
-    
-    this.techNerdService.techNerdMode$.subscribe(mode => {
-      this.isTechNerdMode = mode;
-      document.body.classList.toggle('tech-nerd-mode', mode);
-    });
   }
 
   private initTheme() {
@@ -105,10 +99,6 @@ export class NavigationComponent implements OnInit {
     this.isDarkTheme = !this.isDarkTheme;
     document.body.classList.toggle('light-theme', !this.isDarkTheme);
     localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
-  }
-
-  toggleTechNerdMode() {
-    this.techNerdService.toggleTechNerdMode();
   }
 
   onNavItemHover(event: MouseEvent, enter: boolean) {

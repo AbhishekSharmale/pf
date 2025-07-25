@@ -451,10 +451,24 @@ import { Subscription } from 'rxjs';
       background: linear-gradient(90deg, rgba(64, 224, 208, 0.8), rgba(255, 107, 53, 0.8));
       pointer-events: none;
       z-index: 999;
-      opacity: 0.8;
+      opacity: 1;
+      animation: line-fade 5s ease-in-out forwards;
       
       &.status-pending { background: linear-gradient(90deg, #FFE66D, #FF6B35); }
       &.status-error { background: linear-gradient(90deg, #DC3545, #FF6B35); }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 6px;
+        height: 4px;
+        background: #40E0D0;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #40E0D0;
+        animation: data-travel 2s ease-in-out infinite;
+      }
       
       .api-call-text {
         position: absolute;
@@ -464,6 +478,7 @@ import { Subscription } from 'rxjs';
         gap: 8px;
         font-size: 10px;
         font-family: var(--font-mono);
+        animation: text-fade 5s ease-in-out forwards;
         
         .method {
           background: rgba(64, 224, 208, 0.8);
@@ -478,6 +493,23 @@ import { Subscription } from 'rxjs';
           font-weight: 600;
         }
       }
+    }
+    
+    @keyframes data-travel {
+      0% { left: 0; opacity: 1; }
+      100% { left: calc(100% - 6px); opacity: 0.3; }
+    }
+    
+    @keyframes line-fade {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    @keyframes text-fade {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     @media (max-width: 768px) {
