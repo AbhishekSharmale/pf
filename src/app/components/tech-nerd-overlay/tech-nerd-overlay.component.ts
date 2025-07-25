@@ -59,6 +59,19 @@ import { Subscription } from 'rxjs';
         </div>
       </div>
 
+      <!-- API Connection Lines -->
+      <div class="api-connections">
+        <div 
+          *ngFor="let call of apiCalls" 
+          class="api-connection-line"
+          [style.left.%]="call.from.x"
+          [style.top.%]="call.from.y"
+          [style.width.px]="getLineWidth(call)"
+          [style.transform]="getLineTransform(call)"
+          [class]="'status-' + call.status">
+        </div>
+      </div>
+
       <!-- System Architecture -->
       <div class="architecture-panel">
         <div class="arch-header">
@@ -462,5 +475,18 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
 
   getLoadTime(): number {
     return Math.floor(Math.random() * 200) + 100;
+  }
+
+  getLineWidth(call: APICall): number {
+    const dx = call.to.x - call.from.x;
+    const dy = call.to.y - call.from.y;
+    return Math.sqrt(dx * dx + dy * dy) * 5;
+  }
+
+  getLineTransform(call: APICall): string {
+    const dx = call.to.x - call.from.x;
+    const dy = call.to.y - call.from.y;
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    return `rotate(${angle}deg)`;
   }
 }
