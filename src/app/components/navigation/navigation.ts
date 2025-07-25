@@ -85,6 +85,18 @@ export class NavigationComponent implements OnInit {
   }
 
   navigateTo(path: string) {
+    // Track API call in Tech Nerd Mode
+    const routeToAPI: { [key: string]: string } = {
+      '/': '/api/profile',
+      '/projects': '/api/projects', 
+      '/about': '/api/experience',
+      '/blog': '/api/blog'
+    };
+
+    if (routeToAPI[path]) {
+      this.techNerdService.trackAPICall('NavigationComponent', routeToAPI[path]);
+    }
+
     this.router.navigate([path]);
     this.isMenuOpen = false;
   }

@@ -40,10 +40,46 @@ export class TechNerdModeService {
   toggleTechNerdMode(): void {
     const current = this.techNerdModeSubject.value;
     this.techNerdModeSubject.next(!current);
-    
-    if (!current) {
-      this.startAPICallSimulation();
-    }
+  }
+
+  // Track real user interactions
+  trackAPICall(component: string, endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET'): void {
+    if (!this.techNerdModeSubject.value) return;
+
+    const componentPositions: { [key: string]: { x: number; y: number } } = {
+      'NavigationComponent': { x: 50, y: 10 },
+      'HeroComponent': { x: 20, y: 25 },
+      'ProjectsComponent': { x: 15, y: 50 },
+      'AboutComponent': { x: 25, y: 75 },
+      'BlogComponent': { x: 30, y: 85 }
+    };
+
+    const responseData: { [key: string]: string } = {
+      '/api/projects': '{ projects: [6], status: "success" }',
+      '/api/profile': '{ name: "Abhishek", role: "DevOps" }',
+      '/api/experience': '{ timeline: [3], skills: [10] }',
+      '/api/blog': '{ posts: [3], featured: [2] }',
+      '/api/analytics': '{ tracked: true, timestamp: now }';
+    };
+
+    const call: APICall = {
+      from: componentPositions[component] || { x: 50, y: 50 },
+      to: { x: 85, y: 45 }, // Server position
+      method,
+      endpoint,
+      status: 'pending',
+      timestamp: Date.now(),
+      component,
+      response: responseData[endpoint] || '{ data: "loaded" }'
+    };
+
+    this.addAPICall(call);
+
+    // Simulate API response
+    setTimeout(() => {
+      call.status = 'success';
+      this.updateAPICall(call);
+    }, 600);
   }
 
   private initializeComponents(): void {
@@ -81,64 +117,7 @@ export class TechNerdModeService {
     this.componentsSubject.next(components);
   }
 
-  private startAPICallSimulation(): void {
-    const apiFlows = [
-      {
-        component: 'HeroComponent',
-        position: { x: 20, y: 25 },
-        endpoint: '/api/profile',
-        method: 'GET' as const,
-        response: '{ name, role, status }'
-      },
-      {
-        component: 'ProjectsComponent', 
-        position: { x: 15, y: 50 },
-        endpoint: '/api/projects',
-        method: 'GET' as const,
-        response: '{ projects[], tech[] }'
-      },
-      {
-        component: 'AboutComponent',
-        position: { x: 25, y: 75 },
-        endpoint: '/api/experience',
-        method: 'GET' as const,
-        response: '{ timeline[], skills[] }'
-      },
-      {
-        component: 'NavigationComponent',
-        position: { x: 50, y: 10 },
-        endpoint: '/api/analytics',
-        method: 'POST' as const,
-        response: '{ tracked: true }'
-      }
-    ];
-
-    const serverPosition = { x: 85, y: 45 };
-
-    setInterval(() => {
-      if (this.techNerdModeSubject.value) {
-        const flow = apiFlows[Math.floor(Math.random() * apiFlows.length)];
-        
-        const call: APICall = {
-          from: flow.position,
-          to: serverPosition,
-          method: flow.method,
-          endpoint: flow.endpoint,
-          status: 'pending',
-          timestamp: Date.now(),
-          component: flow.component,
-          response: flow.response
-        };
-
-        setTimeout(() => {
-          call.status = Math.random() > 0.05 ? 'success' : 'error';
-          this.updateAPICall(call);
-        }, 800);
-
-        this.addAPICall(call);
-      }
-    }, 2500);
-  }
+  // Remove random simulation - only track real interactions
 
   private addAPICall(call: APICall): void {
     const current = this.apiCallsSubject.value;

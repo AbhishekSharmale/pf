@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { TechNerdModeService } from '../../services/tech-nerd-mode.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrl: './about.scss'
 })
 export class AboutComponent implements OnInit {
+  constructor(private techNerdService: TechNerdModeService) {}
+
   skills = [
     { name: 'Azure DevOps', level: 95, emoji: '🔵' },
     { name: 'Kubernetes', level: 90, emoji: '⚙️' },
@@ -52,6 +55,9 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.initAnimations();
+    
+    // Track API call when about loads
+    this.techNerdService.trackAPICall('AboutComponent', '/api/experience');
   }
 
   private initAnimations() {

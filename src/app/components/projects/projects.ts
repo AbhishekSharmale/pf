@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { TechNerdModeService } from '../../services/tech-nerd-mode.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,8 @@ export class ProjectsComponent implements OnInit {
   selectedProject: Project | null = null;
   private touchStartX = 0;
   private touchStartY = 0;
+
+  constructor(private techNerdService: TechNerdModeService) {}
   
   projects: Project[] = [
     {
@@ -109,6 +112,9 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.initScrollAnimations();
+    
+    // Track API call when component loads
+    this.techNerdService.trackAPICall('ProjectsComponent', '/api/projects');
   }
 
   private initScrollAnimations() {
@@ -136,6 +142,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   openProjectModal(project: Project) {
+    // Track API call for project details
+    this.techNerdService.trackAPICall('ProjectsComponent', `/api/projects/${project.id}`);
+    
     this.selectedProject = project;
     document.body.style.overflow = 'hidden';
     

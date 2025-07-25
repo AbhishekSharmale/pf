@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { gsap } from 'gsap';
+import { TechNerdModeService } from '../../services/tech-nerd-mode.service';
 
 @Component({
   selector: 'app-hero',
@@ -57,11 +58,16 @@ export class HeroComponent implements OnInit {
 
   currentFactIndex = 0;
 
+  constructor(private techNerdService: TechNerdModeService) {}
+
   ngOnInit() {
     this.initAnimations();
     this.startTypewriter();
     this.rotateTaglines();
     this.rotateStatusMessages();
+    
+    // Track API call when hero loads
+    this.techNerdService.trackAPICall('HeroComponent', '/api/profile');
   }
 
   private initAnimations() {
