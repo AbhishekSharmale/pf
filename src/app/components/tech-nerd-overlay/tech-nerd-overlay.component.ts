@@ -66,9 +66,12 @@ import { Subscription } from 'rxjs';
           class="api-connection-line"
           [style.left.%]="call.from.x"
           [style.top.%]="call.from.y"
-          [style.width.px]="getLineWidth(call)"
-          [style.transform]="getLineTransform(call)"
+          [style.width.%]="call.to.x - call.from.x"
           [class]="'status-' + call.status">
+          <div class="api-call-text">
+            <span class="method">{{ call.method }}</span>
+            <span class="endpoint">{{ call.endpoint }}</span>
+          </div>
         </div>
       </div>
 
@@ -411,6 +414,41 @@ import { Subscription } from 'rxjs';
       50% { opacity: 0.7; }
     }
 
+    .api-connection-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(64, 224, 208, 0.8), rgba(255, 107, 53, 0.8));
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.8;
+      
+      &.status-pending { background: linear-gradient(90deg, #FFE66D, #FF6B35); }
+      &.status-error { background: linear-gradient(90deg, #DC3545, #FF6B35); }
+      
+      .api-call-text {
+        position: absolute;
+        top: -20px;
+        left: 10px;
+        display: flex;
+        gap: 8px;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        
+        .method {
+          background: rgba(64, 224, 208, 0.8);
+          color: #000;
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-weight: 700;
+        }
+        
+        .endpoint {
+          color: #40E0D0;
+          font-weight: 600;
+        }
+      }
+    }
+
     @media (max-width: 768px) {
       .api-dashboard {
         width: 300px;
@@ -425,6 +463,14 @@ import { Subscription } from 'rxjs';
 
       .performance-monitor {
         width: 180px;
+      }
+      
+      .api-call-text {
+        font-size: 8px;
+        
+        .method {
+          padding: 1px 4px;
+        }
       }
     }
   `]
@@ -477,16 +523,5 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
     return Math.floor(Math.random() * 200) + 100;
   }
 
-  getLineWidth(call: APICall): number {
-    const dx = call.to.x - call.from.x;
-    const dy = call.to.y - call.from.y;
-    return Math.sqrt(dx * dx + dy * dy) * 5;
-  }
 
-  getLineTransform(call: APICall): string {
-    const dx = call.to.x - call.from.x;
-    const dy = call.to.y - call.from.y;
-    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-    return `rotate(${angle}deg)`;
-  }
 }
