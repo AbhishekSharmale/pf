@@ -4,6 +4,7 @@ import { ProjectsComponent } from './components/projects/projects';
 import { AboutComponent } from './components/about/about';
 import { BlogComponent } from './components/blog/blog';
 import { NotFoundComponent } from './components/not-found/not-found';
+import { AdminComponent } from './components/admin/admin.component';
 
 export const routes: Routes = [
   { path: '', component: HeroComponent, pathMatch: 'full' },
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'projects', component: ProjectsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'blog', component: BlogComponent },
+  { path: 'admin', component: AdminComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404' }
 ];

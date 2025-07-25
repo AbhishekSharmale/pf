@@ -203,9 +203,7 @@ export class HeroComponent implements OnInit {
   }
 
   scrollToProjects() {
-    const projectsSection = document.querySelector('app-projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Navigate to projects page
+    window.location.href = '/projects';
   }
 }
