@@ -36,25 +36,62 @@ import { Subscription } from 'rxjs';
             <div class="response-preview" *ngIf="call.status === 'success'">
               {{ call.response }}
             </div>
+            <div class="call-metrics">
+              <span class="metric">{{ getRandomLatency() }}ms</span>
+              <span class="metric">{{ getRandomSize() }}KB</span>
+              <span class="metric" [class]="'status-' + call.status">{{ call.status.toUpperCase() }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Performance Monitor -->
       <div class="performance-monitor">
-        <div class="monitor-title">⚡ PERFORMANCE</div>
-        <div class="perf-metrics">
+        <div class="monitor-title">⚡ SYSTEM METRICS</div>
+        <div class="perf-grid">
           <div class="perf-item">
-            <div class="perf-label">FPS</div>
-            <div class="perf-value">60</div>
+            <div class="perf-label">CPU</div>
+            <div class="perf-value">{{ getCPUUsage() }}%</div>
+            <div class="perf-bar">
+              <div class="perf-fill" [style.width.%]="getCPUUsage()"></div>
+            </div>
           </div>
           <div class="perf-item">
             <div class="perf-label">MEMORY</div>
             <div class="perf-value">{{ getMemoryUsage() }}MB</div>
+            <div class="perf-bar">
+              <div class="perf-fill" [style.width.%]="getMemoryUsage()"></div>
+            </div>
           </div>
           <div class="perf-item">
-            <div class="perf-label">LOAD</div>
-            <div class="perf-value">{{ getLoadTime() }}ms</div>
+            <div class="perf-label">NETWORK</div>
+            <div class="perf-value">{{ getNetworkSpeed() }}ms</div>
+            <div class="perf-bar">
+              <div class="perf-fill" [style.width.%]="100 - getNetworkSpeed()"></div>
+            </div>
+          </div>
+          <div class="perf-item">
+            <div class="perf-label">UPTIME</div>
+            <div class="perf-value">{{ getUptime() }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Monitor -->
+      <div class="network-monitor">
+        <div class="monitor-title">🌐 NETWORK</div>
+        <div class="network-stats">
+          <div class="stat-item">
+            <span class="stat-label">REQUESTS</span>
+            <span class="stat-value">{{ getTotalRequests() }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">SUCCESS</span>
+            <span class="stat-value">{{ getSuccessRate() }}%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">AVG TIME</span>
+            <span class="stat-value">{{ getAvgResponse() }}ms</span>
           </div>
         </div>
       </div>
@@ -258,7 +295,7 @@ import { Subscription } from 'rxjs';
       position: fixed;
       top: 80px;
       left: 20px;
-      width: 200px;
+      width: 220px;
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       border: 1px solid rgba(255, 107, 53, 0.4);
       border-radius: 12px;
@@ -274,27 +311,101 @@ import { Subscription } from 'rxjs';
         text-align: center;
       }
 
-      .perf-metrics {
+      .perf-grid {
         padding: 12px;
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
 
         .perf-item {
-          text-align: center;
-
           .perf-label {
             font-size: 7px;
             color: #a0a0a0;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
           }
 
           .perf-value {
-            font-size: 12px;
+            font-size: 10px;
             color: #FF6B35;
+            font-weight: 700;
+            margin-bottom: 4px;
+          }
+          
+          .perf-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            
+            .perf-fill {
+              height: 100%;
+              background: linear-gradient(90deg, #FF6B35, #FFE66D);
+              transition: width 0.5s ease;
+            }
+          }
+        }
+      }
+    }
+
+    .network-monitor {
+      position: fixed;
+      top: 220px;
+      left: 20px;
+      width: 200px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 1px solid rgba(78, 205, 196, 0.4);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+      .monitor-title {
+        background: linear-gradient(90deg, #4ECDC4, #40E0D0);
+        padding: 8px 16px;
+        font-size: 11px;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+      }
+
+      .network-stats {
+        padding: 12px;
+
+        .stat-item {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 8px;
+          font-size: 8px;
+
+          .stat-label {
+            color: #a0a0a0;
+            font-weight: 600;
+          }
+
+          .stat-value {
+            color: #4ECDC4;
             font-weight: 700;
           }
         }
+      }
+    }
+
+    .call-metrics {
+      display: flex;
+      gap: 8px;
+      font-size: 7px;
+      margin-top: 4px;
+      
+      .metric {
+        background: rgba(64, 224, 208, 0.1);
+        padding: 1px 4px;
+        border-radius: 2px;
+        color: #40E0D0;
+        
+        &.status-success { color: #28a745; }
+        &.status-error { color: #dc3545; }
+        &.status-pending { color: #FFE66D; }
       }
     }
 
@@ -608,6 +719,40 @@ export class TechNerdOverlayComponent implements OnInit, OnDestroy {
 
   getLoadTime(): number {
     return Math.floor(Math.random() * 200) + 100;
+  }
+
+  getCPUUsage(): number {
+    return Math.floor(Math.random() * 40) + 15;
+  }
+
+  getNetworkSpeed(): number {
+    return Math.floor(Math.random() * 50) + 20;
+  }
+
+  getUptime(): string {
+    const hours = Math.floor(Math.random() * 24) + 1;
+    const minutes = Math.floor(Math.random() * 60);
+    return `${hours}h ${minutes}m`;
+  }
+
+  getTotalRequests(): number {
+    return Math.floor(Math.random() * 500) + 100;
+  }
+
+  getSuccessRate(): number {
+    return Math.floor(Math.random() * 10) + 90;
+  }
+
+  getAvgResponse(): number {
+    return Math.floor(Math.random() * 100) + 50;
+  }
+
+  getRandomLatency(): number {
+    return Math.floor(Math.random() * 200) + 50;
+  }
+
+  getRandomSize(): number {
+    return Math.floor(Math.random() * 50) + 5;
   }
 
 
