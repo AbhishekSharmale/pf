@@ -1,0 +1,136 @@
+<section class="about-section section">
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="about-hero">
+      <div class="about-avatar">
+        <div class="avatar-container">
+          <span class="avatar-emoji">🤖</span>
+          <div class="avatar-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for Chaos</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="about-content">
+        <h1 class="about-title">About This Madness</h1>
+        <p class="about-subtitle">
+          Hi! I'm a developer who specializes in creating solutions to problems that don't exist yet. 
+          My superpower is turning coffee into code and bugs into "features."
+        </p>
+        
+        <div class="fun-facts">
+          <div class="fact-item">
+            <span class="fact-emoji">☕</span>
+            <span class="fact-text">Coffee consumed: ∞ cups</span>
+          </div>
+          <div class="fact-item">
+            <span class="fact-emoji">🐛</span>
+            <span class="fact-text">Bugs created: Too many to count</span>
+          </div>
+          <div class="fact-item">
+            <span class="fact-emoji">🎭</span>
+            <span class="fact-text">Comedy level: Professional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="skills-section">
+      <h2 class="section-title">
+        <span class="title-emoji">🛠️</span>
+        Skills & Superpowers
+      </h2>
+      
+      <div class="skills-grid">
+        <div *ngFor="let skill of skills" class="skill-item">
+          <div class="skill-header">
+            <span class="skill-emoji">{{ skill.emoji }}</span>
+            <span class="skill-name">{{ skill.name }}</span>
+            <span class="skill-percentage">{{ skill.level }}%</span>
+          </div>
+          <div class="skill-bar">
+            <div 
+              class="skill-bar-fill" 
+              [attr.data-level]="skill.level"
+              [style.background]="skill.name === 'Coffee Brewing' ? 'var(--gradient-accent)' : 'var(--gradient-primary)'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="timeline-section">
+      <h2 class="section-title">
+        <span class="title-emoji">📅</span>
+        My Journey Through Chaos
+      </h2>
+      
+      <div class="timeline">
+        <div *ngFor="let item of timeline" class="timeline-item">
+          <div class="timeline-marker">
+            <span class="marker-emoji">{{ item.emoji }}</span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-year">{{ item.year }}</div>
+            <h3 class="timeline-title">{{ item.title }}</h3>
+            <div class="timeline-company">{{ item.company }}</div>
+            <p class="timeline-description">{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Philosophy Section -->
+    <div class="philosophy-section">
+      <h2 class="section-title">
+        <span class="title-emoji">💭</span>
+        My Development Philosophy
+      </h2>
+      
+      <div class="philosophy-grid">
+        <div class="philosophy-card">
+          <div class="card-emoji">🎯</div>
+          <h3>Solve Real Problems</h3>
+          <p>Or create new ones. Either way, someone's getting a solution!</p>
+        </div>
+        
+        <div class="philosophy-card">
+          <div class="card-emoji">🚀</div>
+          <h3>Move Fast & Break Things</h3>
+          <p>Then fix them. Then break them again. It's the circle of development.</p>
+        </div>
+        
+        <div class="philosophy-card">
+          <div class="card-emoji">🎭</div>
+          <h3>Code with Humor</h3>
+          <p>If you're not laughing at your own code, you're doing it wrong.</p>
+        </div>
+        
+        <div class="philosophy-card">
+          <div class="card-emoji">☕</div>
+          <h3>Coffee-Driven Development</h3>
+          <p>The best code is written between the 3rd and 7th cup of coffee.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="contact-cta">
+      <h2>Ready for Some Organized Chaos?</h2>
+      <p>Let's build something amazing together... or at least something that compiles!</p>
+      <div class="cta-buttons">
+        <a href="mailto:hello@comedycoder.dev" class="btn btn-primary">
+          <span>📧</span>
+          <span>Let's Chat</span>
+        </a>
+        <a href="#" class="btn btn-outline">
+          <span>📄</span>
+          <span>Download Resume</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

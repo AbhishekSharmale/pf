@@ -1,0 +1,66 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Logo/Brand -->
+    <div class="nav-brand" (click)="navigateTo('/')">
+      <span class="brand-icon">🎭</span>
+      <span class="brand-text">ComedyCoder</span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <ul class="nav-menu desktop-only">
+      <li *ngFor="let item of navItems" class="nav-item">
+        <a 
+          [routerLink]="item.path" 
+          [class.active]="currentRoute === item.path"
+          (mouseenter)="onNavItemHover($event, true)"
+          (mouseleave)="onNavItemHover($event, false)"
+          class="nav-link">
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <button class="theme-toggle" (click)="toggleTheme()" title="Toggle theme">
+          <span class="theme-icon">{{ isDarkTheme ? '☀️' : '🌙' }}</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- Mobile Menu Toggle -->
+    <button 
+      class="menu-toggle mobile-only" 
+      (click)="toggleMenu()"
+      [class.active]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-menu" [class.active]="isMenuOpen">
+    <ul class="mobile-nav-list">
+      <li *ngFor="let item of navItems" class="nav-item">
+        <a 
+          [routerLink]="item.path" 
+          (click)="navigateTo(item.path)"
+          [class.active]="currentRoute === item.path"
+          class="nav-link">
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <button class="theme-toggle mobile" (click)="toggleTheme()">
+          <span class="theme-icon">{{ isDarkTheme ? '☀️' : '🌙' }}</span>
+          <span class="theme-label">{{ isDarkTheme ? 'Light Mode' : 'Dark Mode' }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Scroll Progress Bar -->
+  <div class="progress-container">
+    <div #progressBar class="progress-bar"></div>
+  </div>
+</nav>

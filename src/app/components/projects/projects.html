@@ -1,0 +1,103 @@
+<section class="projects-section section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="title-emoji">🚀</span>
+        My Chaotic Creations
+      </h2>
+      <p class="section-subtitle">
+        A collection of solutions to problems that didn't exist... until I created them.
+      </p>
+    </div>
+
+    <div class="projects-grid">
+      <div 
+        *ngFor="let project of projects" 
+        class="project-card"
+        (click)="openProjectModal(project)"
+        (mouseenter)="onCardHover($event, true)"
+        (mouseleave)="onCardHover($event, false)">
+        
+        <div class="card-header">
+          <div class="project-emoji">{{ project.emoji }}</div>
+          <div class="project-status" [style.background-color]="getStatusColor(project.status)">
+            {{ getStatusText(project.status) }}
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          
+          <div class="project-tech">
+            <span *ngFor="let tech of project.tech" class="tech-tag">{{ tech }}</span>
+          </div>
+
+          <div class="project-quote">
+            <em>"{{ project.funnyQuote }}"</em>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="project-links">
+            <span *ngIf="project.demoUrl" class="link-icon">🌐</span>
+            <span *ngIf="project.githubUrl" class="link-icon">📁</span>
+          </div>
+          <div class="click-hint">Click to explore →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div *ngIf="selectedProject" class="modal-overlay" (click)="closeProjectModal()">
+    <div class="project-modal" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeProjectModal()">×</button>
+      
+      <div class="modal-header">
+        <div class="modal-emoji">{{ selectedProject.emoji }}</div>
+        <h2 class="modal-title">{{ selectedProject.title }}</h2>
+        <div class="modal-status" [style.background-color]="getStatusColor(selectedProject.status)">
+          {{ getStatusText(selectedProject.status) }}
+        </div>
+      </div>
+
+      <div class="modal-content">
+        <div class="modal-image">
+          <div class="placeholder-image">
+            <span class="placeholder-emoji">{{ selectedProject.emoji }}</span>
+            <p>Screenshot Coming Soon™</p>
+          </div>
+        </div>
+
+        <div class="modal-details">
+          <p class="modal-description">{{ selectedProject.longDescription }}</p>
+          
+          <div class="modal-tech">
+            <h4>Technologies Used:</h4>
+            <div class="tech-list">
+              <span *ngFor="let tech of selectedProject.tech" class="tech-tag">{{ tech }}</span>
+            </div>
+          </div>
+
+          <div class="modal-quote">
+            <blockquote>
+              <em>"{{ selectedProject.funnyQuote }}"</em>
+            </blockquote>
+          </div>
+
+          <div class="modal-actions">
+            <a *ngIf="selectedProject.demoUrl" [href]="selectedProject.demoUrl" class="btn btn-primary" target="_blank">
+              <span>Live Demo</span>
+              <span>🌐</span>
+            </a>
+            <a *ngIf="selectedProject.githubUrl" [href]="selectedProject.githubUrl" class="btn btn-outline" target="_blank">
+              <span>View Code</span>
+              <span>📁</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+<section class="blog-section section">
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-title">
+        <span class="title-emoji">📝</span>
+        Comedy & Code Blog
+      </h1>
+      <p class="section-subtitle">
+        Where debugging meets stand-up comedy. Warning: May contain traces of actual wisdom.
+      </p>
+    </div>
+
+    <div class="blog-grid">
+      <article 
+        *ngFor="let post of posts" 
+        class="blog-card"
+        [class.featured]="post.featured">
+        
+        <div class="card-header">
+          <div class="post-emoji">{{ post.emoji }}</div>
+          <div class="post-meta">
+            <span class="post-date">{{ getFormattedDate(post.date) }}</span>
+            <span class="post-read-time">{{ post.readTime }} read</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h2 class="post-title">{{ post.title }}</h2>
+          <p class="post-excerpt">{{ post.excerpt }}</p>
+          
+          <div class="post-tags">
+            <span *ngFor="let tag of post.tags" class="tag">{{ tag }}</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="read-more-btn">
+            <span>Read More</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <div class="coming-soon">
+      <div class="coming-soon-content">
+        <div class="coming-soon-emoji">🚧</div>
+        <h3>More Chaos Coming Soon!</h3>
+        <p>I'm currently brewing more coffee and debugging more life. Stay tuned for more hilarious takes on development!</p>
+        
+        <div class="newsletter-signup">
+          <h4>Get Notified of New Posts</h4>
+          <div class="signup-form">
+            <input type="email" placeholder="your.email@domain.com" class="email-input">
+            <button class="btn btn-primary">Subscribe</button>
+          </div>
+          <p class="signup-note">
+            <small>No spam, just quality chaos delivered to your inbox! 📧</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

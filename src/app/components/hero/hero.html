@@ -1,0 +1,64 @@
+<section class="hero-section">
+  <div class="hero-container">
+    <div class="hero-content">
+      <!-- Animated Avatar -->
+      <div class="hero-avatar-container">
+        <div #heroAvatar class="hero-avatar" (click)="onAvatarClick()">
+          <div class="avatar-inner">
+            <span class="avatar-emoji">🤖</span>
+            <div class="avatar-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="hero-text">
+        <h1 #heroTitle class="hero-title">
+          Hi, I'm <span class="text-primary">ComedyCoder</span>
+        </h1>
+        
+        <div #heroSubtitle class="hero-subtitle">
+          <p class="typewriter">{{ typedText }}<span class="cursor-blink">|</span></p>
+        </div>
+
+        <div class="fun-fact">
+          <p class="fun-fact-text">
+            <span class="fun-fact-icon">💡</span>
+            {{ funFacts[currentFactIndex] }}
+          </p>
+        </div>
+
+        <div #heroButtons class="hero-buttons">
+          <a routerLink="/projects" class="btn btn-primary">
+            <span>View My Chaos</span>
+            <span class="btn-icon">🚀</span>
+          </a>
+          <a routerLink="/about" class="btn btn-outline">
+            <span>About This Madness</span>
+            <span class="btn-icon">🎭</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+      <div class="floating-element" style="--delay: 0s; --duration: 3s;">💻</div>
+      <div class="floating-element" style="--delay: 1s; --duration: 4s;">☕</div>
+      <div class="floating-element" style="--delay: 2s; --duration: 3.5s;">🐛</div>
+      <div class="floating-element" style="--delay: 0.5s; --duration: 4.5s;">🔥</div>
+      <div class="floating-element" style="--delay: 1.5s; --duration: 3.2s;">⚡</div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" (click)="scrollToProjects()">
+      <div class="scroll-text">Scroll for more chaos</div>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </div>
+
+  <!-- Background Pattern -->
+  <div class="hero-background">
+    <div class="bg-pattern"></div>
+  </div>
+</section>

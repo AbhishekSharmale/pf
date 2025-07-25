@@ -1,0 +1,93 @@
+<section class="not-found-section">
+  <div class="container">
+    <div class="error-content">
+      <!-- Animated 404 -->
+      <div class="error-code">
+        <span class="digit">4</span>
+        <span class="digit special">0</span>
+        <span class="digit">4</span>
+      </div>
+
+      <!-- Floating Emojis -->
+      <div class="floating-emojis">
+        <div class="floating-emoji" (click)="onEmojiClick($event)">🤖</div>
+        <div class="floating-emoji" (click)="onEmojiClick($event)">🔍</div>
+        <div class="floating-emoji" (click)="onEmojiClick($event)">❓</div>
+        <div class="floating-emoji" (click)="onEmojiClick($event)">🎭</div>
+      </div>
+
+      <!-- Main Message -->
+      <h1 class="error-title">Oops! Page Not Found</h1>
+      
+      <!-- Rotating Funny Quotes -->
+      <div class="quote-container">
+        <p class="funny-quote">{{ funnyQuotes[currentQuote] }}</p>
+      </div>
+
+      <!-- Mini Game Section -->
+      <div class="mini-game-section">
+        <h3>Feeling Bored? Play a Mini Game!</h3>
+        <p class="game-instructions">
+          {{ gameActive ? 'Click the falling emojis! Score: ' + gameScore : 'Click falling emojis to catch them!' }}
+        </p>
+        
+        <button 
+          class="btn btn-primary game-btn" 
+          (click)="startMiniGame()" 
+          [disabled]="gameActive">
+          {{ gameActive ? 'Game in Progress...' : 'Start Emoji Catcher' }}
+        </button>
+
+        <div class="mini-game-container"></div>
+      </div>
+
+      <!-- Navigation Options -->
+      <div class="error-actions">
+        <a routerLink="/" class="btn btn-primary">
+          <span>🏠</span>
+          <span>Go Home</span>
+        </a>
+        <a routerLink="/projects" class="btn btn-outline">
+          <span>🚀</span>
+          <span>View Projects</span>
+        </a>
+        <button class="btn btn-outline" (click)="goBack()">
+          <span>⬅️</span>
+          <span>Go Back</span>
+        </button>
+      </div>
+
+      <!-- Fun Stats -->
+      <div class="fun-stats">
+        <div class="stat-item">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Bugs Created</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">404</div>
+          <div class="stat-label">Pages Lost</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">☕</div>
+          <div class="stat-label">Coffee Needed</div>
+        </div>
+      </div>
+
+      <!-- Easter Egg Hint -->
+      <div class="easter-egg-hint">
+        <p class="hint-text">
+          <small>💡 Psst... Try the Konami code for a surprise!</small>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="background-elements">
+    <div class="bg-emoji" style="--delay: 0s;">💻</div>
+    <div class="bg-emoji" style="--delay: 2s;">🐛</div>
+    <div class="bg-emoji" style="--delay: 4s;">☕</div>
+    <div class="bg-emoji" style="--delay: 1s;">🚀</div>
+    <div class="bg-emoji" style="--delay: 3s;">⚡</div>
+  </div>
+</section>
