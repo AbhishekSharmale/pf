@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ApiService } from './api.service';
 
 export interface ComponentInfo {
   name: string;
@@ -33,7 +34,7 @@ export class TechNerdModeService {
   private apiCallsSubject = new BehaviorSubject<APICall[]>([]);
   public apiCalls$ = this.apiCallsSubject.asObservable();
 
-  constructor() {
+  constructor(private apiService: ApiService) {
     this.initializeComponents();
   }
 
@@ -42,7 +43,7 @@ export class TechNerdModeService {
     this.techNerdModeSubject.next(!current);
   }
 
-  // Track real user interactions
+  // Track real user interactions with actual API calls
   trackAPICall(component: string, endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET'): void {
     if (!this.techNerdModeSubject.value) return;
 
@@ -54,32 +55,51 @@ export class TechNerdModeService {
       'BlogComponent': { x: 10, y: 80 }
     };
 
-    const responseData: { [key: string]: string } = {
-      '/api/projects': '{ projects: [6], status: "success" }',
-      '/api/profile': '{ name: "Abhishek", role: "DevOps" }',
-      '/api/experience': '{ timeline: [3], skills: [10] }',
-      '/api/blog': '{ posts: [3], featured: [2] }',
-      '/api/analytics': '{ tracked: true, timestamp: now }'
-    };
-
     const call: APICall = {
       from: componentPositions[component] || { x: 10, y: 50 },
-      to: { x: 95, y: 50 }, // Server position - far right
+      to: { x: 95, y: 50 },
       method,
       endpoint,
       status: 'pending',
       timestamp: Date.now(),
       component,
-      response: responseData[endpoint] || '{ data: "loaded" }'
+      response: ''
     };
 
     this.addAPICall(call);
 
-    // Simulate API response
-    setTimeout(() => {
-      call.status = 'success';
-      this.updateAPICall(call);
-    }, 600);
+    // Make real API call for analytics
+    if (endpoint === '/api/analytics') {
+      this.apiService.trackEvent('page_view', component).subscribe({
+        next: (response) => {
+          call.status = 'success';
+          call.response = JSON.stringify(response);
+          this.updateAPICall(call);
+        },
+        error: () => {
+          call.status = 'error';
+          call.response = '{ error: "Request failed" }';
+          this.updateAPICall(call);
+        }
+      });
+    } else {
+      // Simulate other endpoints
+      setTimeout(() => {
+        call.status = 'success';
+        call.response = this.getSimulatedResponse(endpoint);
+        this.updateAPICall(call);
+      }, 600);
+    }
+  }
+
+  private getSimulatedResponse(endpoint: string): string {
+    const responses: { [key: string]: string } = {
+      '/api/projects': '{ projects: [6], status: "success" }',
+      '/api/profile': '{ name: "Abhishek", role: "DevOps" }',
+      '/api/experience': '{ timeline: [3], skills: [10] }',
+      '/api/blog': '{ posts: [3], featured: [2] }'
+    };
+    return responses[endpoint] || '{ data: "loaded" }';
   }
 
   private initializeComponents(): void {
