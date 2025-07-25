@@ -59,7 +59,7 @@ export class TechNerdModeService {
       '/api/profile': '{ name: "Abhishek", role: "DevOps" }',
       '/api/experience': '{ timeline: [3], skills: [10] }',
       '/api/blog': '{ posts: [3], featured: [2] }',
-      '/api/analytics': '{ tracked: true, timestamp: now }';
+      '/api/analytics': '{ tracked: true, timestamp: now }'
     };
 
     const call: APICall = {
