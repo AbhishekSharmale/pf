@@ -154,18 +154,48 @@
 
   .tech-nerd-toggle {
     position: relative;
+    background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+    border: 1px solid rgba(64, 224, 208, 0.3);
+    
+    &:hover {
+      background: linear-gradient(135deg, #40E0D0, #FF6B35);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(64, 224, 208, 0.4);
+    }
     
     &.active {
-      background: rgba(0, 255, 65, 0.2);
-      color: #00ff41;
-      box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+      background: linear-gradient(135deg, #40E0D0, #FF6B35);
+      color: white;
+      box-shadow: 0 0 20px rgba(64, 224, 208, 0.6);
+      animation: tech-pulse 2s ease-in-out infinite;
+    }
+
+    .nerd-icon {
+      font-size: 1.1rem;
     }
 
     .toggle-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    
+    &.mobile {
+      .toggle-label {
+        font-size: 0.9rem;
+        margin-left: var(--space-sm);
+      }
+    }
+  }
+  
+  @keyframes tech-pulse {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(64, 224, 208, 0.6);
+    }
+    50% { 
+      box-shadow: 0 0 30px rgba(64, 224, 208, 0.8), 0 0 40px rgba(255, 107, 53, 0.4);
     }
   }
 

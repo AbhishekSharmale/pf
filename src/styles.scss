@@ -251,128 +251,190 @@ a {
   }
 }
 
-// Tech Nerd Mode Wireframe Styles
+// Tech Nerd Mode - Modern Developer Tool Design
 body.tech-nerd-mode {
-  .section,
-  .container,
-  .hero-content,
-  .project-card,
-  .nav-container {
-    position: relative;
-    border: 1px dashed #00ff41;
-    background: rgba(0, 255, 65, 0.02);
-    
-    &::before {
-      content: attr(data-component) attr(class);
-      position: absolute;
-      top: -18px;
-      left: 0;
-      font-size: 10px;
-      color: #00ff41;
-      font-family: var(--font-mono);
-      background: var(--bg-primary);
-      padding: 2px 6px;
-      border-radius: 3px;
-      z-index: 1000;
-      pointer-events: none;
-    }
-  }
-
-  // Component boundaries
-  app-navigation::before { content: 'NavigationComponent'; }
-  app-hero::before { content: 'HeroComponent'; }
-  app-projects::before { content: 'ProjectsComponent'; }
-  app-about::before { content: 'AboutComponent'; }
-  app-blog::before { content: 'BlogComponent'; }
-
-  // API call visualization overlay
-  &::after {
+  // Subtle grid overlay
+  &::before {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 999;
     background: 
-      radial-gradient(circle at 90% 50%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
-      linear-gradient(45deg, transparent 49%, rgba(0, 255, 65, 0.1) 50%, transparent 51%);
-    animation: tech-scan 3s ease-in-out infinite;
+      linear-gradient(90deg, transparent 98%, rgba(64, 224, 208, 0.08) 100%),
+      linear-gradient(0deg, transparent 98%, rgba(64, 224, 208, 0.08) 100%);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 998;
+    animation: grid-move 20s linear infinite;
+  }
+  
+  // Pulse animation for active components
+  .section:hover,
+  .project-card:hover {
+    animation: data-pulse 2s ease-in-out infinite;
+  }
+
+  .section,
+  .container,
+  .project-card,
+  .nav-container {
+    position: relative;
+    border: 1px solid rgba(64, 224, 208, 0.3);
+    background: rgba(64, 224, 208, 0.02);
+    box-shadow: inset 0 0 20px rgba(64, 224, 208, 0.05);
+    
+    &::after {
+      content: attr(data-component);
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      font-size: 9px;
+      color: #40E0D0;
+      font-family: var(--font-mono);
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 2px 8px;
+      border: 1px solid rgba(64, 224, 208, 0.4);
+      border-radius: 0 0 0 6px;
+      z-index: 1000;
+      pointer-events: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+  }
+
+  // Component labels with modern styling
+  app-navigation { &::after { content: 'NAV'; } }
+  app-hero { &::after { content: 'HERO'; } }
+  app-projects { &::after { content: 'PROJECTS'; } }
+  app-about { &::after { content: 'ABOUT'; } }
+  app-blog { &::after { content: 'BLOG'; } }
+  
+  .hero-content { &::after { content: 'CONTENT'; } }
+  .project-card { &::after { content: 'CARD'; } }
+  .nav-container { &::after { content: 'CONTAINER'; } }
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+@keyframes data-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(64, 224, 208, 0.3);
+    border-color: rgba(64, 224, 208, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(64, 224, 208, 0.6);
+    border-color: rgba(64, 224, 208, 0.8);
   }
 }
 
-@keyframes tech-scan {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.1; }
-}
-
-// API Call Lines
+// Modern API Call Visualization
 .api-call-line {
   position: fixed;
   pointer-events: none;
-  z-index: 998;
+  z-index: 999;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(64, 224, 208, 0.8) 20%, 
+    rgba(255, 107, 53, 0.8) 80%, 
+    transparent 100%
+  );
+  border-radius: 1px;
+  box-shadow: 0 0 10px rgba(64, 224, 208, 0.4);
   
   &::before {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, #00ff41, transparent);
-    animation: api-flow 2s ease-in-out infinite;
+    top: -1px;
+    left: 0;
+    width: 6px;
+    height: 4px;
+    background: #40E0D0;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #40E0D0;
+    animation: data-flow 2s ease-in-out infinite;
   }
 }
 
-@keyframes api-flow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+@keyframes data-flow {
+  0% { transform: translateX(-3px); opacity: 1; }
+  100% { transform: translateX(calc(100vw - 3px)); opacity: 0; }
 }
 
-// Component Info Panel
+// Modern Developer Console Panel
 .component-info-panel {
   position: fixed;
-  top: 100px;
+  top: 80px;
   right: 20px;
-  width: 250px;
-  background: var(--bg-secondary);
-  border: 1px solid #00ff41;
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
+  width: 280px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 1px solid rgba(64, 224, 208, 0.4);
+  border-radius: 8px;
+  padding: 16px;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: #00ff41;
+  font-size: 11px;
+  color: #40E0D0;
   z-index: 1001;
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 
   .panel-title {
     font-weight: 700;
-    margin-bottom: var(--space-sm);
+    margin-bottom: 12px;
     color: var(--primary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(64, 224, 208, 0.2);
+    padding-bottom: 6px;
   }
 
   .panel-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(64, 224, 208, 0.1);
     
-    .label { opacity: 0.7; }
-    .value { color: #00ff41; }
+    &:last-child { border-bottom: none; }
+    
+    .label { 
+      opacity: 0.8;
+      color: #a0a0a0;
+    }
+    .value { 
+      color: #40E0D0;
+      font-weight: 600;
+    }
   }
 }
 
 // Mobile responsive for tech nerd mode
 @media (max-width: 768px) {
   body.tech-nerd-mode {
-    .section::before,
-    .container::before {
-      font-size: 8px;
-      top: -15px;
+    &::before {
+      background-size: 30px 30px;
+    }
+    
+    .section::after,
+    .container::after {
+      font-size: 7px;
+      padding: 1px 4px;
     }
     
     .component-info-panel {
-      width: 200px;
+      width: 220px;
       right: 10px;
-      font-size: 0.7rem;
+      font-size: 9px;
+      padding: 12px;
     }
   }
 }
